@@ -2,9 +2,24 @@
 
 const path = require('node:path')
 const AutoLoad = require('@fastify/autoload')
-
+const fastifyEnv = require('@fastify/env');
 // Pass --options via CLI arguments in command to enable these options.
-const options = {}
+// const options = {}
+const schema = {
+  type: 'object',
+  required: ['MONGODB_URI'],
+  properties: {   
+    MONGODB_URI: {
+      type: 'string'
+    }
+  }
+};
+
+const options = {
+  schema: schema,
+  dotenv: true, // This enables reading from the .env file
+  // data: process.env // Not strictly necessary if using dotenv: true
+};
 
 module.exports = async function (fastify, opts) {
   // Place here your custom code!
@@ -14,6 +29,10 @@ module.exports = async function (fastify, opts) {
   // This loads all plugins defined in plugins
   // those should be support plugins that are reused
   // through your application
+  // Register the plugin
+  fastify.register(fastifyEnv, options);
+  await fastify.after()
+
   fastify.register(AutoLoad, {
     dir: path.join(__dirname, 'plugins'),
     options: Object.assign({}, opts)
@@ -33,7 +52,7 @@ module.exports = async function (fastify, opts) {
 
     // url: 'mongodb://mongo/app-tgphanoi'
     // url: "mongodb://localhost:27017/app-tgphanoi"
-    url: "mongodb://admin:Btt%40123456@192.168.1.217:27017/app-tgphanoi?authSource=admin"
+    url: `${fastify.config.MONGODB_URI}`
   })
 
   fastify.register(require('@fastify/view'), {
@@ -47,6 +66,10 @@ module.exports = async function (fastify, opts) {
     root: path.join(__dirname, 'public'), // Specifies where your static files are
     prefix: '/', // Creates a virtual path prefix in the URL
   });
+
+  
+
+
 }
 
 module.exports.options = options
