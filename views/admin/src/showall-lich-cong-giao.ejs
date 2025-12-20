@@ -260,19 +260,19 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-text">BĐ1</div>
-                            <input id="bd-1" type="text" class="form-control" placeholder="Eg. St 1, 1-5" aria-label="Input group example" aria-describedby="">
+                            <input id="bd-1" type="text" class="form-control" placeholder="" aria-label="Input group example" aria-describedby="">
                             <div class="input-group-text">BĐ2</div>
-                            <input id="bd-2" type="text" class="form-control" placeholder="Eg. Rm 1, 1-5" aria-label="Input group example" aria-describedby="">
+                            <input id="bd-2" type="text" class="form-control" placeholder="" aria-label="Input group example" aria-describedby="">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-text">Đáp ca</div>
-                            <input id="dap-ca" type="text" class="form-control" placeholder="Eg. Tv 1, 1-5" aria-label="Input group example" aria-describedby="">
+                            <input id="dap-ca" type="text" class="form-control" placeholder="" aria-label="Input group example" aria-describedby="">
                             <div class="input-group-text">Alleluia</div>
-                            <input id="alleluia" type="text" class="form-control" placeholder="Eg. Rm 1, 1-5" aria-label="Input group example" aria-describedby="">
+                            <input id="alleluia" type="text" class="form-control" placeholder="" aria-label="Input group example" aria-describedby="">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-text">Tin mừng</div>
-                            <input id="tin-mung" type="text" class="form-control" placeholder="Eg. Tv 1, 1-5" aria-label="Input group example" aria-describedby="">                            
+                            <input id="tin-mung" type="text" class="form-control" placeholder="" aria-label="Input group example" aria-describedby="">                            
                         </div>
                         <div class="mb-3">
                             <label for="cau-loi-chua" class="form-label">Câu Lời Chúa</label>
@@ -281,8 +281,17 @@
 
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Hiển Thị</h5>
+                                <h5 class="card-title">Hiển Thị <a class="btn btn-success" id="show-view-in-lich">Hiển thị</a></h5>
                                 <p class="card-text" id="view-in-lich"></p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="alert alert-success " role="alert" id="alert-success" style="display: none;">
+                                Cập nhật thành công!                            
+                            </div>
+                            <div class="alert alert-danger " role="alert" id="alert-failed" style="display: none;">
+                                Cập nhật thất bại!
+                                
                             </div>
                         </div>
                                                 
@@ -298,7 +307,7 @@
             </div>
 
             <!-- Right Column -->
-            <div class="col" id="col-ngay-le">
+            <div class="col" id="col-ngay-le" style="overflow-y: scroll; max-height: 90dvh;">
                 
             </div>
             <div class="card card-ngay-le" style="display: none;">
@@ -364,6 +373,38 @@
 
 <script>
     $(document).ready(function(){
+        $("#show-view-in-lich").click(function(){
+            let title = "<h1>"+$("#title").val()+"</h1>"
+            let bac_le = "<p>"+$("#bac-le").val()+"</p>"
+            let mau_ao_le = "<p>"+$(".mau-ao-le:checked").val()+"</p>"
+            let bd_1 = $("#bd-1").val()
+            let bd_2 = $("#bd-2").val()
+            let tin_mung = $("#tin-mung").val()
+
+            let loi_chua = "<p>"+bd_1+"; "
+            if(bd_2 != ""){
+                loi_chua+= bd_2+"; "
+            }
+            loi_chua += tin_mung+"</p>"
+            let cau_loi_chua = "<p>"+$("#cau-loi-chua").val()+"</p>"
+
+            let htmlStr = title + bac_le + mau_ao_le + loi_chua +cau_loi_chua
+            $("#view-in-lich").html(htmlStr)
+        })
+        function hienthi(){
+            let title = "<h1>"+$("#title").val()+"</h1>"
+            let bac_le = "<p>"+$("#bac-le").val()+"</p>"
+            let mau_ao_le = "<p>"+$(".mau-ao-le:checked").val()+"</p>"
+            let bd_1 = $("#bd-1").val()
+            let bd_2 = $("#bd-2").val()
+            let tin_mung = $("#tin-mung").val()
+
+            let loi_chua = "<p>"+bd_1+"; "+bd_2+"; "+tin_mung+"</p>"
+            let cau_loi_chua = "<p>"+$("#cau-loi-chua")+"</p>"
+
+            let htmlStr = title + bac_le + mau_ao_le + loi_chua +cau_loi_chua
+            $("#view-in-lich").append(htmlStr)
+        }
         $(".toggle-header").click(function(){
             $(this).siblings(".card-body").toggle()
         })
@@ -400,11 +441,20 @@
             $.get("/update-ngay-lich",to_send, function(data, status){
                 if(status == "success"){
                     console.log("Cập nhật thành công "+ data._id )
+                    $(".alert").hide()
+                    $("#alert-success").show()
 
                 }else{
-                    alert("Cập nhật không thành công")
+                    $(".alert").hide()
+                    $("#alert-failed").show()
                 }
             })
+        })
+        $("#alert-failed").click(function(){
+            $(this).hide()
+        })
+        $("#alert-success").click(function(){
+            $(this).hide()
         })
         $(".use-url").click(function(){
             $("#url").val($(this).siblings("input.r-url").val())
