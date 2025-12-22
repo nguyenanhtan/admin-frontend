@@ -232,7 +232,9 @@ module.exports = async function (fastify, opts) {
     const {date} = request.query
     //console.log(`${_id}`)
     try {
-      let lich = []      
+      let cur_month = []  
+      let prev_month = []    
+      let nxt_month = []
       console.log(date)
       if(date != undefined){
         let d = new Date(date)
@@ -241,12 +243,32 @@ module.exports = async function (fastify, opts) {
         if(month < 10){
           month = "0"+month
         }
+
+        let p_m = month
+        let p_y = year
+        if(p_m == 1){
+          p_m = 12
+          p_y--
+        }else{
+          p_m--
+        }
+
+        let n_m = month
+        let n_y = year
+        if(n_m == 12){
+          n_m = 1
+          n_y++
+        }else{
+          n_m++
+        }
         // console.log(year)
         // console.log(month)
         console.log(`^${year}-${month}-\d{2}`)
         //let reg = new RegExp(`^${year}-${month}-\d{2}`)
-        lich = await tb_lich.find({date: {$regex: `^${year}-${month}-\\d{2}`}}).sort({date: 1}).toArray()
-        return {calendar: lich}
+        cur_month = await tb_lich.find({date: {$regex: `^${year}-${month}-\\d{2}`}}).sort({date: 1}).toArray()
+        prev_month = await tb_lich.find({date: {$regex: `^${p_y}-${p_m}-\\d{2}`}}).sort({date: 1}).toArray()
+        nxt_month = await tb_lich.find({date: {$regex: `^${n_y}-${n_m}-\\d{2}`}}).sort({date: 1}).toArray()
+        return {cur_month: cur_month, prev_month: prev_month, nxt_month: nxt_month}
       }else{
         reply.code(400).send({ error: 'Missing required parameter: date or month' });
       }                  
