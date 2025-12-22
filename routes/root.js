@@ -97,29 +97,9 @@ module.exports = async function (fastify, opts) {
     
     const ngayle = this.mongo.db.collection('ngay-le')
     try{
-      //let query = { date: "" };
+    
       let col = await ngayle.find({}).toArray();
-      // let t = []
-      // for (let index = 0; index < col.length; index++) {
-      //   const element = col[index];
-      //   let _id = element._id
-      //   if(element.hasOwnProperty("assigned_date")){
-      //     let assigned_date = element.assigned_date
-      //     for(const key in assigned_date){
-      //       if(isNaN(assigned_date[key])){
-      //         assigned_date[key] = key+"-"+(assigned_date[key].split("/")[1] < 10? "0"+assigned_date[key].split("/")[1]:assigned_date[key].split("/")[1])+"-"+(assigned_date[key].split("/")[0] < 10? "0"+assigned_date[key].split("/")[0]:assigned_date[key].split("/")[0])
-      //       }
-      //     }
-      //     try{
-      //       await ngayle.updateOne({_id: new this.mongo.ObjectId(_id)},{$set: {assigned_date: assigned_date}})
-      //     }catch(err){
-      //       return err
-      //     }
-      //     t.push({assigned_date: assigned_date})
-      //   }
-      // }
-      // return t
-      // return col   
+       
       return reply.view('admin/src/bien-tap-ngay-le.ejs', { ngay_le: col})
     }catch(err){
       return err
@@ -239,6 +219,38 @@ module.exports = async function (fastify, opts) {
     try {
       const lich = await tb_lich.deleteOne({_id: new this.mongo.ObjectId(_id)})            
       return {_id: _id}
+    } catch (err) {
+      return err
+    }
+  });
+  fastify.get('/get-calendar', async function (request, reply) {
+    const tb_lich = this.mongo.db.collection('lich-cong-giao')
+
+    // const tb_ngayle = this.mongo.db.collection('ngay-le')
+    // if the id is an ObjectId format, you need to create a new ObjectId
+    //const id = this.mongo.ObjectId(req.params.id)
+    const {date} = request.query
+    //console.log(`${_id}`)
+    try {
+      let lich = []      
+      console.log(date)
+      if(date != undefined){
+        let d = new Date(date)
+        let year = d.getFullYear()
+        let month = d.getMonth()+1
+        if(month < 10){
+          month = "0"+month
+        }
+        // console.log(year)
+        // console.log(month)
+        console.log(`^${year}-${month}-\d{2}`)
+        //let reg = new RegExp(`^${year}-${month}-\d{2}`)
+        lich = await tb_lich.find({date: {$regex: `^${year}-${month}-\\d{2}`}}).sort({date: 1}).toArray()
+        return {calendar: lich}
+      }else{
+        reply.code(400).send({ error: 'Missing required parameter: date or month' });
+      }                  
+      
     } catch (err) {
       return err
     }
