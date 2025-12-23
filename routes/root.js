@@ -289,7 +289,7 @@ module.exports = async function (fastify, opts) {
     // const tb_ngayle = this.mongo.db.collection('ngay-le')
     // if the id is an ObjectId format, you need to create a new ObjectId
     //const id = this.mongo.ObjectId(req.params.id)
-    const {_id, title, url, mua_phung_vu, bac_le, mau_ao_le, bd_1, bd_2, dap_ca, alleluia, tin_mung, cau_loi_chua} = request.query
+    const {_id, title, url, mua_phung_vu, bac_le, mau_ao_le, bd_1, bd_2, dap_ca, alleluia, tin_mung, cau_loi_chua, xu_chau_luot, luu_y} = request.query
     //console.log(`${_id}`)
     let update_data = {
       title: title,
@@ -302,10 +302,12 @@ module.exports = async function (fastify, opts) {
       dap_ca: dap_ca,
       alleluia: alleluia,
       tin_mung: tin_mung,
-      cau_loi_chua: cau_loi_chua
+      cau_loi_chua: cau_loi_chua,
+      xu_chau_luot: xu_chau_luot,
+      luu_y: luu_y
     }
     try {
-      console.log(update_data)
+      // console.log(update_data)
       await tb_lich.updateOne({_id: new this.mongo.ObjectId(_id)}, {$set: update_data})            
       return {_id: _id}
     } catch (err) {

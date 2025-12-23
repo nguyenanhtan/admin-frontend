@@ -278,7 +278,14 @@
                             <label for="cau-loi-chua" class="form-label">Câu Lời Chúa</label>
                             <input type="text" class="form-control" id="cau-loi-chua" placeholder="Enter Câu Lời Chúa">
                         </div>
-
+                        <div class="mb-3">
+                            <label for="xu-chau-luot" class="form-label">Xứ Chầu Lượt</label>
+                            <textarea class="form-control" id="xu-chau-luot"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="luu-y" class="form-label">Lưu ý</label>
+                            <textarea class="form-control" id="luu-y"></textarea>
+                        </div>
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Hiển Thị <a class="btn btn-success" id="show-view-in-lich">Hiển thị</a></h5>
@@ -310,7 +317,7 @@
             <div class="col" id="col-ngay-le" style="overflow-y: scroll; max-height: 90dvh;">
                 
             </div>
-            <div class="card card-ngay-le" style="display: none;">
+            <div class="card card-ngay-le" style="display: none; margin-top:15px">
                 <div class="card-header toggle-header"><h5 class="card-title">Card title</h5></div>
                 <div class="card-body">
                     
@@ -437,6 +444,9 @@
             to_send.alleluia = $("form input#alleluia").val()
             to_send.tin_mung = $("form input#tin-mung").val()
             to_send.cau_loi_chua = $("form input#cau-loi-chua").val()
+            to_send.xu_chau_luot = $("form textarea#xu-chau-luot").val()
+            to_send.luu_y = $("form textarea#luu-y").val()
+
             console.log(to_send)
             $.get("/update-ngay-lich",to_send, function(data, status){
                 if(status == "success"){
@@ -481,19 +491,34 @@
             }
         })
         $(".use-bd-1").click(function(){
+            $(".use-bd-1").removeClass("btn-success")
+            $(this).addClass("btn-success")
             $("#bd-1").val($(this).siblings("input.r-bd-1").val())
         })
         $(".use-bd-2").click(function(){
+            $(".use-bd-2").removeClass("btn-success")
+            $(this).addClass("btn-success")
             $("#bd-2").val($(this).siblings("input.r-bd-2").val())
         })
         $(".use-dap-ca").click(function(){
+            $(".use-dap-ca").removeClass("btn-success")
+            $(this).addClass("btn-success")
             $("#dap-ca").val($(this).siblings("input.r-dap-ca").val())
         })
         $(".use-alleluia").click(function(){
+            $(".use-alleluia").removeClass("btn-success")
+            $(this).addClass("btn-success")
             $("#alleluia").val($(this).siblings("input.r-alleluia").val())
         })
         $(".use-tin-mung").click(function(){
+            $(".use-tin-mung").removeClass("btn-success")
+            $(this).addClass("btn-success")
             $("#tin-mung").val($(this).siblings("input.r-tin-mung").val())
+        })
+        $(".use-cau-loi-chua").click(function(){
+            $(".use-cau-loi-chua").removeClass("btn-success")
+            $(this).addClass("btn-success")
+            $("#cau-loi-chua").val($(this).siblings("input.r-cau-loi-chua").val())
         })
         // $(".use-season").click(function(){
         //     $("#season").val($(this).siblings("input.r-season").val())
@@ -526,6 +551,9 @@
                     let l_alleluia = $("#alleluia")
                     let l_tin_mung = $("#tin-mung")
                     let l_cau_loi_chua = $("#cau-loi-chua")
+
+                    let l_xu_chau_luot = $("#xu-chau-luot")
+                    let l_luu_y = $("#luu-y")
                  
                     l_date.val("") 
                     l_title.val("")
@@ -538,6 +566,9 @@
                     l_alleluia.val("")
                     l_tin_mung.val("")
                     l_cau_loi_chua.val("")
+
+                    l_xu_chau_luot.val("")
+                    l_luu_y.val("")
 
                     $("#_id").val(l_id)
                     if(data.lich.date != undefined){
@@ -573,13 +604,13 @@
                         l_url.val("")
                         l_url.val(data.lich.url)
                     }
-                    if(data.lich.season != undefined){
-                        l_url.val("")
-                        l_url.val(data.lich.season)
+                    if(data.lich.mua_phung_vu != undefined){
+                        l_season.val("")
+                        l_season.val(data.lich.mua_phung_vu)
                     }
                     if(data.lich.bac_le != undefined){
-                        l_url.val("")
-                        l_url.val(data.lich.bac_le)
+                        l_bac_le.val("")
+                        l_bac_le.val(data.lich.bac_le)
                     }
                     if(data.lich.bd_1 != undefined){
                         l_bd_1.val(data.lich.bd_1)
@@ -598,6 +629,12 @@
                     }
                     if(data.lich.cau_loi_chua != undefined){
                         l_cau_loi_chua.val(data.lich.cau_loi_chua)
+                    }
+                    if(data.lich.xu_chau_luot != undefined){
+                        l_xu_chau_luot.val(data.lich.xu_chau_luot)
+                    }
+                    if(data.lich.luu_y != undefined){
+                        l_luu_y.val(data.lich.luu_y)
                     }
 
                     $("#col-ngay-le").empty()
