@@ -195,14 +195,17 @@ module.exports = async function (fastify, opts) {
     try {
       const lich = await tb_lich.findOne({_id: new this.mongo.ObjectId(_id)})
       let n_date = new Date(lich.date)
-      let query = {["assigned_date."+n_date.getFullYear()] : lich.date, date:""}
+      let query = {["assigned_date."+n_date.getFullYear()] : lich.date}
+      
       const ngay_le_1 = await tb_ngayle.find({date: (n_date.getDate() >9?n_date.getDate():"0"+n_date.getDate())+"/"+(n_date.getMonth()+1 > 9? n_date.getMonth()+1: "0"+(n_date.getMonth()+1))}).toArray()
       const ngay_le_2 = await tb_ngayle.find(query).toArray()
 
-      console.log("---> "+(n_date.getDate() >9?n_date.getDate():"0"+n_date.getDate())+"/"+(n_date.getMonth()+1 > 9? n_date.getMonth()+1: "0"+(n_date.getMonth()+1)))
-      console.log(ngay_le_1)
-      console.log(ngay_le_2)
+      // console.log("---> "+(n_date.getDate() >9?n_date.getDate():"0"+n_date.getDate())+"/"+(n_date.getMonth()+1 > 9? n_date.getMonth()+1: "0"+(n_date.getMonth()+1)))
+      // console.log(ngay_le_1)
+      // console.log(ngay_le_2)
       
+      
+      // return {lich: lich, ngay_le: ngay_le_1.concat(ngay_le_2)}
       return {lich: lich, ngay_le: ngay_le_1.concat(ngay_le_2)}
     } catch (err) {
       return err

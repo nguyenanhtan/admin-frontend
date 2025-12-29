@@ -48,7 +48,7 @@
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
                 <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
+                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DAMIN TGPHN</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
@@ -63,14 +63,14 @@
                 <div class="navbar-nav w-100">
                     <a href="/temp-man" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     <a href="/bien-tap-lich" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Biên tập </a>
-                    <div class="nav-item dropdown">
+                    <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="button.html" class="dropdown-item">Buttons</a>
                             <a href="typography.html" class="dropdown-item">Typography</a>
                             <a href="element.html" class="dropdown-item">Other Elements</a>
                         </div>
-                    </div>
+                    </div> -->
 
                      <% c_date = new Date(lich[0].date).getMonth(); index = 0; d_o_w = 0; %>
                     <h1>Tháng <%= c_date+1%></h1>
@@ -321,7 +321,7 @@
             <div class="col" id="col-ngay-le" style="overflow-y: scroll; max-height: 90dvh;">
                 
             </div>
-            <div class="card card-ngay-le" style="display: none; margin-top:15px">
+            <div class="card card-ngay-le" id="card-ngay-le" style="display: none; margin-top:15px">
                 <div class="card-header toggle-header"><h5 class="card-title">Card title</h5></div>
                 <div class="card-body">
                     
@@ -371,7 +371,9 @@
                         <input  type="text" class="form-control r-cau-loi-chua" >                            
                     </div>
                     
-                    
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary">Cập Nhật</button>
                 </div>
             </div>
         </div>
@@ -537,11 +539,17 @@
             $.get("/get-lich",{_id: id}, function(data, status){
                 console.log("Data: " + data.toString() + "\nStatus: " + status);
                 if(status == "success"){
-                    console.log(data.lich._id)
-                    console.log(data.lich.title)
-                    console.log(data.lich.mau_ao_le)
-                    console.log(data.lich.date)
-                    console.log("Số lễ có thể cử hành: "+data.ngay_le.length)
+                    // console.log(data.lich._id)
+                    // console.log(data.lich.title)
+                    // console.log(data.lich.mau_ao_le)
+                    // console.log(data.lich.date)
+                    // console.log("Số lễ có thể cử hành: "+data.ngay_le.length)
+                    console.log("key:"+data.ngay_le.length)
+                    for(key in data.Ortn){
+                        console.log(key)
+                    }
+                    
+                    
 
                     let l_id = id
                     let l_date = $("#date")
@@ -648,8 +656,8 @@
                     }
                     $("#col-ngay-le").empty()
                     data.ngay_le.forEach(function(e){
-                        console.log("---->"+e.title)
-                        let card_ngay_le = $(".card-ngay-le").clone(true, true)
+                        //console.log("---->"+e.title)
+                        let card_ngay_le = $("#card-ngay-le").clone(true, true)
                         card_ngay_le.appendTo("#col-ngay-le")
                         // console.log(card_ngay_le.html())
                         card_ngay_le.show()
@@ -677,16 +685,16 @@
                         if(e.ban_van != undefined){
                             
                             if(e.ban_van["Bài Ðọc I:"] != undefined){
-                                console.log(e.ban_van["Bài Ðọc I:"])
+                                //console.log(e.ban_van["Bài Ðọc I:"])
                                 let tmp = $.parseHTML(e.ban_van["Bài Ðọc I:"])
-                                console.log(tmp[0])                            
+                                //console.log(tmp[0])                            
                                 card_ngay_le.find(".r-bd-1").val($(tmp[0]).text().split(":")[1].trim())
                             }
 
                             if(e.ban_van["Bài Ðọc II:"] != undefined){
-                                console.log(e.ban_van["Bài Ðọc II:"])
+                                //console.log(e.ban_van["Bài Ðọc II:"])
                                 let tmp = $.parseHTML(e.ban_van["Bài Ðọc II:"])
-                                console.log(tmp[0])   
+                                //console.log(tmp[0])   
                                 card_ngay_le.find(".r-bd-2").val($(tmp[0]).text().split(":")[1].trim())
                             }
 
