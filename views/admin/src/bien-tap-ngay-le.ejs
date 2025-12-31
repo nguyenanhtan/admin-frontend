@@ -71,8 +71,10 @@
                             <a href="element.html" class="dropdown-item">Other Elements</a>
                         </div>
                     </div>
-                    <a href="widget.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
-                    <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
+                    <% ngay_le.forEach(function(u){%>   
+                        <a  class="nav-item nav-link btn"><input type="hidden" value="<%=u._id%>"/><%= u.title%></a>
+                    <%})%>
+                    <!-- <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
                     <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
                     <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
                     <div class="nav-item dropdown">
@@ -83,7 +85,7 @@
                             <a href="404.html" class="dropdown-item">404 Error</a>
                             <a href="blank.html" class="dropdown-item">Blank Page</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </nav>
         </div>
@@ -259,8 +261,7 @@
             <div class="container-fluid pt-4 px-4">
                 <div class="bg-light text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Recent Salse</h6>
-                        <a href="">Show All</a>
+                        
                     </div>
                     
                         
@@ -278,6 +279,181 @@
                                 return year+"-"+month+"-"+day
                             }
                               $(document).ready(function(){
+                                $('.hc-bd1-le').click(function(){
+                                    $(this).prop("disabled", true)
+                                    let bd1_le_trich_tu = $(this).parent().find("input.r-bd1-le-trich-tu")
+                                    let cau_bd1_le_tom_gon = $(this).parent().find("input.r-cau-bd1-le-tom-gon")
+                                    let bd1_le = $(this).siblings("textarea.r-bd1-le")
+
+                                    n_dvtl = $(bd1_le.val()).first().text().split(":")[1]
+                                    bd1_le_trich_tu.val(n_dvtl)
+
+                                    n_dvtl = $(bd1_le.val()).first().next().text()
+                                    cau_bd1_le_tom_gon.val(n_dvtl)
+
+                                    n_dvtl = $("<div>"+bd1_le.val()+"</div>")
+                                    n_dvtl.find('p').slice(0,2).remove()
+                                    bd1_le.val(n_dvtl.html())                                    
+                                })
+                                $('.hc-bd2').click(function(){
+                                    $(this).prop("disabled", true)
+                                    let bd2_le_trich_tu = $(this).parent().find("input.r-bd2-trich-tu")
+                                    let cau_bd2_le_tom_gon = $(this).parent().find("input.r-cau-bd2-tom-gon")
+                                    let bd2_le = $(this).siblings("textarea.r-bd2")
+
+                                    n_dvtl = $(bd2_le.val()).first().text().split(":")[1]
+                                    bd2_le_trich_tu.val(n_dvtl)
+
+                                    n_dvtl = $(bd2_le.val()).first().next().text()
+                                    cau_bd2_le_tom_gon.val(n_dvtl)
+
+                                    n_dvtl = $("<div>"+bd2_le.val()+"</div>")
+                                    n_dvtl.find('p').slice(0,2).remove()
+                                    bd2_le.val(n_dvtl.html())                                    
+                                })
+                                $('.hc-dap-ca').click(function(){
+                                    $(this).prop("disabled", true)
+                                    let bd2_le_trich_tu = $(this).parent().find("input.r-dap-ca-trich-tu")
+                                    
+                                    let bd2_le = $(this).siblings("textarea.r-dap-ca")
+
+                                    n_dvtl = $(bd2_le.val()).first().text().split(":")[1]
+                                    bd2_le_trich_tu.val(n_dvtl)
+
+
+                                    n_dvtl = $("<div>"+bd2_le.val()+"</div>")
+                                    n_dvtl.find('p').slice(0,1).remove()
+                                    bd2_le.val(n_dvtl.html())                                    
+                                })
+                                $('.hc-alleluia').click(function(){
+                                    $(this).prop("disabled", true)
+                                    let bd2_le_trich_tu = $(this).parent().find("input.r-alleluia-trich-tu")
+                                    
+                                    let bd2_le = $(this).siblings("textarea.r-alleluia")
+
+                                    n_dvtl = $(bd2_le.val()).first().text().split(":")[1]
+                                    bd2_le_trich_tu.val(n_dvtl)
+
+
+                                    n_dvtl = $("<div>"+bd2_le.val()+"</div>")
+                                    n_dvtl.find('p').slice(0,1).remove()
+                                    bd2_le.val(n_dvtl.html())                                    
+                                })
+                                $('.hc-phuc-am').click(function(){
+                                    $(this).prop("disabled", true)
+                                    let bd2_le_trich_tu = $(this).parent().find("input.r-phuc-am-trich-tu")
+                                    let cau_bd2_le_tom_gon = $(this).parent().find("input.r-cau-phuc-am-tom-gon")
+                                    let bd2_le = $(this).siblings("textarea.r-phuc-am")
+
+                                    n_dvtl = $(bd2_le.val()).first().text().split(":")[1]
+                                    bd2_le_trich_tu.val(n_dvtl)
+
+                                    n_dvtl = $(bd2_le.val()).first().next().text()
+                                    cau_bd2_le_tom_gon.val(n_dvtl)
+
+                                    n_dvtl = $("<div>"+bd2_le.val()+"</div>")
+                                    n_dvtl.find('p').slice(0,2).remove()
+                                    bd2_le.val(n_dvtl.html())                                    
+                                })
+                                $(".btn-hieu-chinh").click(function(){
+                                    $(this).prop("disabled", true)
+                                    let dan_vao_thanh_le = $(this).parents(".form-ngay-le").find("textarea.r-dan-vao-thanh-le")
+                                    let ca_nhap_le = $(this).parents(".form-ngay-le").find("textarea.r-ca-nhap-le")
+                                    let loi_nguyen_nhap_le = $(this).parents(".form-ngay-le").find("textarea.r-loi-nguyen-nhap-le")
+
+                                    let bd1_le_trich_tu = $(this).parents(".form-ngay-le").find("input.r-bd1-le-trich-tu")
+                                    let cau_bd1_le_tom_gon = $(this).parents(".form-ngay-le").find("input.r-cau-bd1-le-tom-gon")
+                                    let bd1_le = $(this).parents(".form-ngay-le").find("textarea.r-bd1-le")
+
+                                    let bd1_chan_trich_tu = $(this).parents(".form-ngay-le").find("input.r-bd1-chan-trich-tu")
+                                    let cau_bd1_chan_tom_gon = $(this).parents(".form-ngay-le").find("input.r-cau-bd1-chan-tom-gon")
+                                    let bd1_chan = $(this).parents(".form-ngay-le").find("textarea.r-bd1-chan")
+
+                                    let dap_ca_trich_tu = $(this).parents(".form-ngay-le").find("input.r-dap-ca-trich-tu")                                    
+                                    let dap_ca = $(this).parents(".form-ngay-le").find("textarea.r-dap-ca")
+                          
+
+                                    let bd2_trich_tu = $(this).parents(".form-ngay-le").find("input.r-bd2-trich-tu")
+                                    let cau_bd2_tom_gon = $(this).parents(".form-ngay-le").find("input.r-cau-bd2-tom-gon")
+                                    let bd2 = $(this).parents(".form-ngay-le").find("textarea.r-bd2")
+
+                                    let alleluia_trich_tu = $(this).parents(".form-ngay-le").find("input.r-alleluia-trich-tu")                                    
+                                    let alleluia = $(this).parents(".form-ngay-le").find("textarea.r-alleluia")
+
+                                    let phuc_am_trich_tu = $(this).parents(".form-ngay-le").find("input.r-phuc-am-trich-tu")
+                                    let cau_phuc_am_tom_gon = $(this).parents(".form-ngay-le").find("input.r-cau-phuc-am-tom-gon")
+                                    let phuc_am = $(this).parents(".form-ngay-le").find("textarea.r-phuc-am")
+
+                                    let loi_nguyen_tin_huu = $(this).parents(".form-ngay-le").find("textarea.r-loi-nguyen-tin-huu")
+                                    let loi_nguyen_tien_le = $(this).parents(".form-ngay-le").find("textarea.r-loi-nguyen-tien-le")
+                                    let ca_hiep_le = $(this).parents(".form-ngay-le").find("textarea.r-ca-hiep-le")
+                                    let loi_nguyen_hiep_le = $(this).parents(".form-ngay-le").find("textarea.r-loi-nguyen-hiep-le")
+
+                                    let n_dvtl = $(dan_vao_thanh_le.val().replace(/<p[^>]*>[\s\S]*?<\/p>/, ''))
+                                    dan_vao_thanh_le.val(n_dvtl.text())
+
+                                    n_dvtl = $(ca_nhap_le.val().replace(/<p[^>]*>[\s\S]*?<\/p>/, ''))
+                                    ca_nhap_le.val(n_dvtl.text())
+                                    
+                                    n_dvtl = $(loi_nguyen_nhap_le.val().replace(/<p[^>]*>[\s\S]*?<\/p>/, ''))
+                                    loi_nguyen_nhap_le.val(n_dvtl.text())
+
+                                    // n_dvtl = $(dap_ca.val().replace(/<p[^>]*>[\s\S]*?<\/p>/, ''))
+                                    // dap_ca.val(n_dvtl.text())
+
+                                    // n_dvtl = $(alleluia.val()).first().text().split(":")[1]
+                                    // alleluia_trich_tu.val(n_dvtl)
+                                    // n_dvtl = $(alleluia.val().replace(/<p[^>]*>[\s\S]*?<\/p>/, ''))
+                                    // alleluia.val(n_dvtl.text())
+                                    
+                                    n_dvtl = $(loi_nguyen_tien_le.val().replace(/<p[^>]*>[\s\S]*?<\/p>/, ''))
+                                    loi_nguyen_tien_le.val(n_dvtl.text())
+
+                                    n_dvtl = $(ca_hiep_le.val().replace(/<p[^>]*>[\s\S]*?<\/p>/, ''))
+                                    ca_hiep_le.val(n_dvtl.text())
+
+                                    n_dvtl = $(loi_nguyen_hiep_le.val().replace(/<p[^>]*>[\s\S]*?<\/p>/, ''))
+                                    loi_nguyen_hiep_le.val(n_dvtl.text())
+
+                                    n_dvtl = loi_nguyen_tin_huu.val().replace(/<p[^>]*>[\s\S]*?<\/p>/, '')
+                                    loi_nguyen_tin_huu.val(n_dvtl)
+
+                                    let ban_van = {
+                                        dan_vao_thanh_le: dan_vao_thanh_le.val(),
+                                        ca_nhap_le: ca_nhap_le.val(),
+                                        loi_nguyen_nhap_le: loi_nguyen_nhap_le.val(),
+
+                                        bd1_le_trich_tu: bd1_le_trich_tu.val(),
+                                        cau_bd1_le_tom_gon: cau_bd1_le_tom_gon.val(),
+                                        bd1_le: bd1_le.val(),
+
+                                        bd1_chan_trich_tu: bd1_chan_trich_tu.val(),
+                                        cau_bd1_chan_tom_gon: cau_bd1_chan_tom_gon.val(),
+                                        bd1_chan: bd1_chan.val(),
+
+                                        dap_ca_trich_tu: dap_ca_trich_tu.val(),
+                                        dap_ca: dap_ca.val(),
+                                        bd2_trich_tu: bd2_trich_tu.val(),
+                                        cau_bd2_tom_gon: cau_bd2_tom_gon.val(),
+                                        bd2: bd2.val(),
+
+                                        alleluia_trich_tu: alleluia_trich_tu.val(),
+                                        alleluia: alleluia.val(),
+
+                                        phuc_am_trich_tu: phuc_am_trich_tu.val(),
+                                        cau_phuc_am_tom_gon: cau_phuc_am_tom_gon.val(),
+                                        phuc_am: phuc_am.val(),
+
+                                        loi_nguyen_tin_huu: loi_nguyen_tin_huu.val(),
+                                        loi_nguyen_tien_le: loi_nguyen_tien_le.val(),
+                                        ca_hiep_le: ca_hiep_le.val(),
+                                        loi_nguyen_hiep_le: loi_nguyen_hiep_le.val()
+                                    }
+
+                                    console.log(ban_van)
+                                })
+                                
+                                
                                 $(".date").click(function(){
                                   
                                 })
@@ -289,8 +465,88 @@
                                     
                                 })
 
-                                $(".btn-save").click(function(){                            
-                                  
+                                $(".btn-savea").click(function(){                            
+                                    let dan_vao_thanh_le = $(this).parents(".form-ngay-le").find("textarea.r-dan-vao-thanh-le")
+                                    let ca_nhap_le = $(this).parents(".form-ngay-le").find("textarea.r-ca-nhap-le")
+                                    let loi_nguyen_nhap_le = $(this).parents(".form-ngay-le").find("textarea.r-loi-nguyen-nhap-le")
+
+                                    let bd1_le_trich_tu = $(this).parents(".form-ngay-le").find("input.r-bd1-le-trich-tu")
+                                    let cau_bd1_le_tom_gon = $(this).parents(".form-ngay-le").find("input.r-cau-bd1-le-tom-gon")
+                                    let bd1_le = $(this).parents(".form-ngay-le").find("textarea.r-bd1-le")
+
+                                    let bd1_chan_trich_tu = $(this).parents(".form-ngay-le").find("input.r-bd1-chan-trich-tu")
+                                    let cau_bd1_chan_tom_gon = $(this).parents(".form-ngay-le").find("input.r-cau-bd1-chan-tom-gon")
+                                    let bd1_chan = $(this).parents(".form-ngay-le").find("textarea.r-bd1-chan")
+
+                                    let dap_ca_trich_tu = $(this).parents(".form-ngay-le").find("input.r-dap-ca-trich-tu")                                    
+                                    let dap_ca = $(this).parents(".form-ngay-le").find("textarea.r-dap-ca")
+                          
+
+                                    let bd2_trich_tu = $(this).parents(".form-ngay-le").find("input.r-bd2-trich-tu")
+                                    let cau_bd2_tom_gon = $(this).parents(".form-ngay-le").find("input.r-cau-bd2-tom-gon")
+                                    let bd2 = $(this).parents(".form-ngay-le").find("textarea.r-bd2")
+
+                                    let alleluia_trich_tu = $(this).parents(".form-ngay-le").find("input.r-alleluia-trich-tu")                                    
+                                    let alleluia = $(this).parents(".form-ngay-le").find("textarea.r-alleluia")
+
+                                    let phuc_am_trich_tu = $(this).parents(".form-ngay-le").find("input.r-phuc-am-trich-tu")
+                                    let cau_phuc_am_tom_gon = $(this).parents(".form-ngay-le").find("input.r-cau-phuc-am-tom-gon")
+                                    let phuc_am = $(this).parents(".form-ngay-le").find("textarea.r-phuc-am")
+
+                                    let loi_nguyen_tin_huu = $(this).parents(".form-ngay-le").find("textarea.r-loi-nguyen-tin-huu")
+                                    let loi_nguyen_tien_le = $(this).parents(".form-ngay-le").find("textarea.r-loi-nguyen-tien-le")
+                                    let ca_hiep_le = $(this).parents(".form-ngay-le").find("textarea.r-ca-hiep-le")
+                                    let loi_nguyen_hiep_le = $(this).parents(".form-ngay-le").find("textarea.r-loi-nguyen-hiep-le")
+
+                                    let doc = {
+                                    title : $(this).parents(".form-ngay-le").find('input.m-title').val(),
+                                    date : $(this).parents(".form-ngay-le").find('input.r-date').val(),
+                                    assigned_date : $(this).parents(".form-ngay-le").find('input.assigned-date').val(),
+                                    week : $(this).parents(".form-ngay-le").find('input.week').val(),
+                                    season : $(this).parents(".form-ngay-le").find('input.season').val(),
+                                    bac_le : $(this).parents(".form-ngay-le").find('input.bac_le').val(),
+                                    mau_ao_le : $(this).parents(".form-ngay-le").find('input.mau-ao-le').val(),
+                                    _id : $(this).parents(".form-ngay-le").find('input._id').val(),
+
+                                    ban_van : {
+                                        dan_vao_thanh_le: dan_vao_thanh_le.val(),
+                                        ca_nhap_le: ca_nhap_le.val(),
+                                        loi_nguyen_nhap_le: loi_nguyen_nhap_le.val(),
+
+                                        bd1_le_trich_tu: bd1_le_trich_tu.val(),
+                                        cau_bd1_le_tom_gon: cau_bd1_le_tom_gon.val(),
+                                        bd1_le: bd1_le.val(),
+
+                                        bd1_chan_trich_tu: bd1_chan_trich_tu.val(),
+                                        cau_bd1_chan_tom_gon: cau_bd1_chan_tom_gon.val(),
+                                        bd1_chan: bd1_chan.val(),
+
+                                        dap_ca_trich_tu: dap_ca_trich_tu.val(),
+                                        dap_ca: dap_ca.val(),
+                                        bd2_trich_tu: bd2_trich_tu.val(),
+                                        cau_bd2_tom_gon: cau_bd2_tom_gon.val(),
+                                        bd2: bd2.val(),
+
+                                        alleluia_trich_tu: alleluia_trich_tu.val(),
+                                        alleluia: alleluia.val(),
+
+                                        phuc_am_trich_tu: phuc_am_trich_tu.val(),
+                                        cau_phuc_am_tom_gon: cau_phuc_am_tom_gon.val(),
+                                        phuc_am: phuc_am.val(),
+
+                                        loi_nguyen_tin_huu: loi_nguyen_tin_huu.val(),
+                                        loi_nguyen_tien_le: loi_nguyen_tien_le.val(),
+                                        ca_hiep_le: ca_hiep_le.val(),
+                                        loi_nguyen_hiep_le: loi_nguyen_hiep_le.val()
+                                        }
+                                    }
+                                $.get("/update-bien-tap-ngay-le", doc,                                  
+                                    function(data, status){
+                                    console.log("Data: ")
+                                    console.log(data.update_data)
+                                    console.log("\nStatus: " + status)
+                                    }
+                                );
                                 })
                                 $(".check-all").click(function(){
                                     $(".checkbox").prop("checked", $(this).is(":checked"))
@@ -414,57 +670,110 @@
                                     <button class="form-control set-default-date"><i class="bi bi-calendar-check"></i></button>
                                 </div>                                
                             </div>
-                            <!-- <div class="row mb-4">
+                            <h5 class="mb-3"><strong>Bản Văn</strong></h5>
+                            <div class="row mb-4 block-ban-van">
                                 <div class="col-md-6">
-                                    <label for="date1" class="form-label">Ngày mừng lễ</label>
-                                    <input type="date" class="form-control" value="<%= u.mau_ao_le %>" disabled>
-                                </div>
+                                    <span class=""><strong>Dẫn vào Thánh Lễ</strong></span>
+                                    <textarea type="text" class="form-control r-dan-vao-thanh-le"><%= u.ban_van['Dẫn vào Thánh Lễ'] %></textarea>                                    
+                                </div>      
                                 <div class="col-md-6">
-                                    <label for="date2" class="form-label">End Date</label>
-                                    <input type="date" class="form-control" id="date2">
-                                </div>
-                            </div> -->
-
-                            <!-- Textarea Group Section -->
-                            <!-- <h5 class="mb-3">Additional Details</h5>
-                            <div class="row mb-3">
+                                    <span class=""><strong>Ca Nhập Lễ</strong></span>
+                                    <textarea type="text" class="form-control r-ca-nhap-le"><%= u.ban_van['Ca nhập lễ'] %></textarea>                                    
+                                </div>       
                                 <div class="col-md-6">
-                                    <p>Ca Nhập Lễ</p>
+                                    <span class=""><strong>Lời Nguyện Nhập Lễ</strong></span>
+                                    <textarea type="text" class="form-control r-loi-nguyen-nhap-le"><%= u.ban_van['Lời nguyện nhập lễ'] %></textarea>                                    
+                                </div>     
+                                <div class="col-md-6">
                                     
-                                     <p><%= u.ban_van['Ca nhập lễ']%></p>
-                                </div>
+                                    <span class=""><strong>Bài Ðọc I Năm Lẻ (Mặc định)</strong></span>
+                                    <button class="btn btn-secondary hc-bd1-le"><i class="bi bi-arrow-clockwise"></i></button>    
+                                    <div class="col-md-12 input-group">
+                                        <span class="input-group-text"><strong>Trích từ</strong></span>
+                                        <input type="text" class="form-control r-bd1-le-trich-tu" value="<%= u.ban_van.bd1_le_trich_tu%>" >
+                                    </div>
+                                    <div class="col-md-12 input-group">
+                                        <span class="input-group-text"><strong>Câu tóm gọn</strong></span>
+                                        <input type="text" class="form-control r-cau-bd1-le-tom-gon" value="<%= u.ban_van.cau_bd1_le_tom_gon%>" >
+                                    </div>
+                                    <textarea type="text" class="form-control r-bd1-le"><%= u.ban_van['Bài Ðọc I:'] %></textarea>    
+                                                                
+                                </div>  
                                 <div class="col-md-6">
-                                    <p>Lời Nguyện Nhập Lễ</p>
-                                    
-                                     <p><%= u.ban_van["Lời nguyện nhập lễ"]%></p>
-                                </div>
+                                    <span class=""><strong>Bài Ðọc I Năm Chẵn:</strong></span>
+                                    <!-- <button class="btn btn-secondary hc-bd1-chan"><i class="bi bi-arrow-clockwise"></i></button>   -->
+                                    <div class="col-md-12 input-group">
+                                        <span class="input-group-text"><strong>Trích từ</strong></span>
+                                        <input type="text" class="form-control r-bd1-chan-trich-tu" value="<%= u.ban_van.bd1_chan_trich_tu%>" >
+                                    </div>
+                                    <div class="col-md-12 input-group">
+                                        <span class="input-group-text"><strong>Câu tóm gọn</strong></span>
+                                        <input type="text" class="form-control r-cau-bd1-chan-tom-gon" value="<%= u.ban_van.cau_bd1_chan_tom_gon%>" >
+                                    </div>
+                                    <textarea type="text" class="form-control r-bd1-chan"><%= u.ban_van.bd1_chan %></textarea>                                    
+                                </div>  
+                                <div class="col-md-6">
+                                    <span class=""><strong>Ðáp Ca:</strong></span>
+                                    <button class="btn btn-secondary hc-dap-ca"><i class="bi bi-arrow-clockwise"></i></button>
+                                    <div class="col-md-12 input-group">
+                                        <span class="input-group-text"><strong>Trích từ</strong></span>
+                                        <input type="text" class="form-control r-dap-ca-trich-tu" value="<%= u.ban_van.dap_ca_trich_tu%>" >
+                                    </div>
+                                    <textarea type="text" class="form-control r-dap-ca"><%= u.ban_van['Ðáp Ca:'] %></textarea>                                    
+                                </div>     
+                                <div class="col-md-6">
+                                    <span class=""><strong>Bài Ðọc II:</strong></span>
+                                    <button class="btn btn-secondary hc-bd2"><i class="bi bi-arrow-clockwise"></i></button>  
+                                    <div class="col-md-12 input-group">
+                                        <span class="input-group-text"><strong>Trích từ</strong></span>
+                                        <input type="text" class="form-control r-bd2-trich-tu" value="<%= u.ban_van.bd2_trich_tu%>" >
+                                    </div>
+                                    <div class="col-md-12 input-group">
+                                        <span class="input-group-text"><strong>Câu tóm gọn</strong></span>
+                                        <input type="text" class="form-control r-cau-bd2-tom-gon" value="<%= u.ban_van.cau_bd2_tom_gon%>" >
+                                    </div>
+                                    <textarea type="text" class="form-control r-bd2"><%= u.ban_van['Bài Ðọc II:'] %></textarea>                                    
+                                </div>    
+                                <div class="col-md-6">
+                                    <span class=""><strong>Alleluia:</strong></span>
+                                    <button class="btn btn-secondary hc-alleluia"><i class="bi bi-arrow-clockwise"></i></button>  
+                                    <div class="col-md-12 input-group">
+                                        <span class="input-group-text"><strong>Trích từ</strong></span>
+                                        <input type="text" class="form-control r-alleluia-trich-tu" value="<%= u.ban_van.alleluia_trich_tu%>" >
+                                    </div>
+                                    <textarea type="text" class="form-control r-alleluia"><%= u.ban_van['Alleluia:'] %></textarea>                                    
+                                </div>     
+                                <div class="col-md-6">
+                                    <span class=""><strong>Phúc Âm:</strong></span>
+                                    <button class="btn btn-secondary hc-phuc-am"><i class="bi bi-arrow-clockwise"></i></button>  
+                                    <div class="col-md-12 input-group">
+                                        <span class="input-group-text"><strong>Trích từ</strong></span>
+                                        <input type="text" class="form-control r-phuc-am-trich-tu" value="<%= u.ban_van.phuc_am_trich_tu%>" >
+                                    </div>
+                                    <div class="col-md-12 input-group">
+                                        <span class="input-group-text"><strong>Câu tóm gọn</strong></span>
+                                        <input type="text" class="form-control r-cau-phuc-am-tom-gon" value="<%= u.ban_van.cau_phuc_am_tom_gon%>" >
+                                    </div>
+                                    <textarea type="text" class="form-control r-phuc-am"><%= u.ban_van['Phúc Âm:'] %></textarea>                                    
+                                </div>   
+                                <div class="col-md-6">
+                                    <span class=""><strong>Lời nguyện tín hữu</strong></span>
+                                    <textarea type="text" class="form-control r-loi-nguyen-tin-huu"><%= u.ban_van['Lời nguyện tín hữu'] %></textarea>                                    
+                                </div>     
+                                <div class="col-md-6">
+                                    <span class=""><strong>Lời nguyện tiến lễ</strong></span>
+                                    <textarea type="text" class="form-control r-loi-nguyen-tien-le"><%= u.ban_van['Lời nguyện tiến lễ'] %></textarea>                                    
+                                </div>     
+                                <div class="col-md-6">
+                                    <span class=""><strong>Ca hiệp lễ</strong></span>
+                                    <textarea type="text" class="form-control r-ca-hiep-le"><%= u.ban_van['Ca hiệp lễ'] %></textarea>                                    
+                                </div>     
+                                <div class="col-md-6">
+                                    <span class=""><strong>Lời nguyện hiệp lễ</strong></span>
+                                    <textarea type="text" class="form-control r-loi-nguyen-hiep-le"><%= u.ban_van['Lời nguyện hiệp lễ'] %></textarea>                                    
+                                </div>                 
                             </div>
                             
-                                
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="textarea3" class="form-label">Description 3</label>
-                                    <textarea class="form-control" id="textarea3" rows="3" placeholder="Enter description"></textarea>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="textarea4" class="form-label">Description 4</label>
-                                    <textarea class="form-control" id="textarea4" rows="3" placeholder="Enter description"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="textarea5" class="form-label">Đáp Ca</label>
-                                    <textarea class="form-control" id="textarea5" rows="3" placeholder="Enter description"><%= u.ban_van["Ðáp Ca:"]%></textarea>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="textarea6" class="form-label">Description 6</label>
-                                    <textarea class="form-control" id="textarea6" rows="3" placeholder="Enter description"></textarea>
-                                </div>
-                            </div> -->
-
-                            
-                        <!-- </div> -->
                             <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
                               Cập nhật thành công!
                               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -476,6 +785,7 @@
                             <!-- Submit Buttons -->
 
                             <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-secondary me-2 btn-hieu-chinh">Hiệu Chỉnh</button>
                                 <button type="button" class="btn btn-secondary me-2">Cancel</button>
                                 <button type="submit" class="btn btn-primary btn-save">Save</button>
                             </div>
@@ -505,6 +815,82 @@ $(document).ready(function(){
         let bac_le = $(this).parents(".form-ngay-le").find("input.bac-le").val();
         let assigned_date = $(this).parents(".form-ngay-le").find("input.assigned-date").val();
         let mau_ao_le = $(this).parents(".form-ngay-le").find("input.mau-ao-le").val();
+
+        let dan_vao_thanh_le = $(this).parents(".form-ngay-le").find("textarea.r-dan-vao-thanh-le")
+        let ca_nhap_le = $(this).parents(".form-ngay-le").find("textarea.r-ca-nhap-le")
+        let loi_nguyen_nhap_le = $(this).parents(".form-ngay-le").find("textarea.r-loi-nguyen-nhap-le")
+
+        let bd1_le_trich_tu = $(this).parents(".form-ngay-le").find("input.r-bd1-le-trich-tu")
+        let cau_bd1_le_tom_gon = $(this).parents(".form-ngay-le").find("input.r-cau-bd1-le-tom-gon")
+        let bd1_le = $(this).parents(".form-ngay-le").find("textarea.r-bd1-le")
+
+        let bd1_chan_trich_tu = $(this).parents(".form-ngay-le").find("input.r-bd1-chan-trich-tu")
+        let cau_bd1_chan_tom_gon = $(this).parents(".form-ngay-le").find("input.r-cau-bd1-chan-tom-gon")
+        let bd1_chan = $(this).parents(".form-ngay-le").find("textarea.r-bd1-chan")
+
+        let dap_ca_trich_tu = $(this).parents(".form-ngay-le").find("input.r-dap-ca-trich-tu")                                    
+        let dap_ca = $(this).parents(".form-ngay-le").find("textarea.r-dap-ca")
+
+
+        let bd2_trich_tu = $(this).parents(".form-ngay-le").find("input.r-bd2-trich-tu")
+        let cau_bd2_tom_gon = $(this).parents(".form-ngay-le").find("input.r-cau-bd2-tom-gon")
+        let bd2 = $(this).parents(".form-ngay-le").find("textarea.r-bd2")
+
+        let alleluia_trich_tu = $(this).parents(".form-ngay-le").find("input.r-alleluia-trich-tu")                                    
+        let alleluia = $(this).parents(".form-ngay-le").find("textarea.r-alleluia")
+
+        let phuc_am_trich_tu = $(this).parents(".form-ngay-le").find("input.r-phuc-am-trich-tu")
+        let cau_phuc_am_tom_gon = $(this).parents(".form-ngay-le").find("input.r-cau-phuc-am-tom-gon")
+        let phuc_am = $(this).parents(".form-ngay-le").find("textarea.r-phuc-am")
+
+        let loi_nguyen_tin_huu = $(this).parents(".form-ngay-le").find("textarea.r-loi-nguyen-tin-huu")
+        let loi_nguyen_tien_le = $(this).parents(".form-ngay-le").find("textarea.r-loi-nguyen-tien-le")
+        let ca_hiep_le = $(this).parents(".form-ngay-le").find("textarea.r-ca-hiep-le")
+        let loi_nguyen_hiep_le = $(this).parents(".form-ngay-le").find("textarea.r-loi-nguyen-hiep-le")
+
+        let doc = {
+        title : $(this).parents(".form-ngay-le").find('input.m-title').val(),
+        date : $(this).parents(".form-ngay-le").find('input.r-date').val(),
+        assigned_date : $(this).parents(".form-ngay-le").find('input.assigned-date').val(),
+        week : $(this).parents(".form-ngay-le").find('input.week').val(),
+        season : $(this).parents(".form-ngay-le").find('input.season').val(),
+        bac_le : $(this).parents(".form-ngay-le").find('input.bac_le').val(),
+        mau_ao_le : $(this).parents(".form-ngay-le").find('input.mau-ao-le').val(),
+        _id : $(this).parents(".form-ngay-le").find('input._id').val(),
+
+        ban_van : {
+            dan_vao_thanh_le: dan_vao_thanh_le.val(),
+            ca_nhap_le: ca_nhap_le.val(),
+            loi_nguyen_nhap_le: loi_nguyen_nhap_le.val(),
+
+            bd1_le_trich_tu: bd1_le_trich_tu.val(),
+            cau_bd1_le_tom_gon: cau_bd1_le_tom_gon.val(),
+            bd1_le: bd1_le.val(),
+
+            bd1_chan_trich_tu: bd1_chan_trich_tu.val(),
+            cau_bd1_chan_tom_gon: cau_bd1_chan_tom_gon.val(),
+            bd1_chan: bd1_chan.val(),
+
+            dap_ca_trich_tu: dap_ca_trich_tu.val(),
+            dap_ca: dap_ca.val(),
+            bd2_trich_tu: bd2_trich_tu.val(),
+            cau_bd2_tom_gon: cau_bd2_tom_gon.val(),
+            bd2: bd2.val(),
+
+            alleluia_trich_tu: alleluia_trich_tu.val(),
+            alleluia: alleluia.val(),
+
+            phuc_am_trich_tu: phuc_am_trich_tu.val(),
+            cau_phuc_am_tom_gon: cau_phuc_am_tom_gon.val(),
+            phuc_am: phuc_am.val(),
+
+            loi_nguyen_tin_huu: loi_nguyen_tin_huu.val(),
+            loi_nguyen_tien_le: loi_nguyen_tien_le.val(),
+            ca_hiep_le: ca_hiep_le.val(),
+            loi_nguyen_hiep_le: loi_nguyen_hiep_le.val()
+            }
+        }
+    
         let data = {
             _id: _id,
             title: title,  

@@ -318,6 +318,35 @@ module.exports = async function (fastify, opts) {
       return err
     }
   });
+
+  fastify.get('/update-bien-tap-ngay-le', async function (request, reply) {
+    const tb_ngay_le = this.mongo.db.collection('ngay-le')
+
+    // const tb_ngayle = this.mongo.db.collection('ngay-le')
+    // if the id is an ObjectId format, you need to create a new ObjectId
+    //const id = this.mongo.ObjectId(req.params.id)
+    const {_id, title, date, week, season, bac_le, mau_ao_le, ban_van, assigned_date} = request.query
+    //console.log(`${_id}`)
+    let d = new Date(assigned_date)
+    let y = d.getFullYear()
+    let update_data = {
+      title: title,
+      date: date,
+      week: week,
+      season: season,
+      bac_le: bac_le,
+      mau_ao_le: mau_ao_le,
+      ban_van: ban_van,
+      ['assigned_date.'+y]: assigned_date
+    }
+    try {
+      console.log(update_data)
+      //await tb_ngay_le.updateOne({_id: new this.mongo.ObjectId(_id)}, {$set: update_data})            
+      return {update_data: update_data}
+    } catch (err) {
+      return err
+    }
+  });
 }
 
 
