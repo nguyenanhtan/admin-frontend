@@ -1,6 +1,11 @@
 'use strict'
 const fastify = require('fastify')()
-
+const { JSDOM } = require('jsdom');
+class DOMParser {
+  parseFromString(s, contentType = 'text/html') {
+    return new JSDOM(s, { contentType }).window.document;
+  }
+}
 
 
 module.exports = async function (fastify, opts) {
@@ -68,23 +73,7 @@ module.exports = async function (fastify, opts) {
     const ngayle = this.mongo.db.collection('ngay-le')
     try{
       //let query = { date: "" };
-      let alluser = await users.find({}).sort({date: 1}).toArray();
-
-      // for (let index = 0; index < alluser.length; index++) {
-      //   const e = alluser[index]
-      // //   console.log(e.id_le_theo_mua_phung_vu)
-      // e.le_theo_mua_phung_vu = {}  
-      // e.le_theo_mua_phung_vu = await ngayle.findOne({_id: e.id_le_theo_mua_phung_vu})
-      // //   let ad = new Date(e.date)
-      // //   if( !e.le_theo_mua_phung_vu.hasOwnProperty("assigned_date")){
-      // //     e.le_theo_mua_phung_vu.assigned_date = {}
-      // //   }        
-      // //   e.le_theo_mua_phung_vu.assigned_date [ad.getFullYear()] =  ad.getDate()+"/"+(ad.getMonth()+1)
-      //   // return alluser[index]
-      //   //await ngayle.updateOne( { _id: e.id_le_theo_mua_phung_vu }, { $set: { assigned_date: e.le_theo_mua_phung_vu.assigned_date } })
-      //   // break
-      // }        
-      // return 
+      let alluser = await users.find({}).sort({date: 1}).toArray();     
       return reply.view('admin/src/showall-lich-cong-giao.ejs', { lich: alluser})
     }catch(err){
       return err
@@ -104,6 +93,343 @@ module.exports = async function (fastify, opts) {
     }catch(err){
       return err
     }
+  });
+  fastify.get('/bien-tap-ban-van', async function (request, reply) {
+    const ngayle = this.mongo.db.collection('ngay-le')
+    if('_id' in request.query){
+      if('dan_vao_thanh_le' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.dan_vao_thanh_le": request.query.dan_vao_thanh_le}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('ca_nhap_le' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.ca_nhap_le": request.query.ca_nhap_le}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('loi_nguyen_nhap_le' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.loi_nguyen_nhap_le": request.query.loi_nguyen_nhap_le}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('bd1_le_trich_tu' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.bd1_le_trich_tu": request.query.bd1_le_trich_tu}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('cau_bd1_le_tom_gon' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.cau_bd1_le_tom_gon": request.query.cau_bd1_le_tom_gon}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('bd1_le' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.bd1_le": request.query.bd1_le}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('dap_ca_le_trich_tu' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.dap_ca_le_trich_tu": request.query.dap_ca_le_trich_tu}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('dap_ca_le' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.dap_ca_le": request.query.dap_ca_le}})          
+        }catch(err){
+          return err
+        }
+      }
+      //////////////////////
+      if('bd1_chan_trich_tu' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.bd1_chan_trich_tu": request.query.bd1_chan_trich_tu}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('cau_bd1_chan_tom_gon' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.cau_bd1_chan_tom_gon": request.query.cau_bd1_chan_tom_gon}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('bd1_chan' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.bd1_chan": request.query.bd1_chan}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('dap_ca_chan_trich_tu' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.dap_ca_chan_trich_tu": request.query.dap_ca_chan_trich_tu}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('dap_ca_chan' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.dap_ca_chan": request.query.dap_ca_chan}})          
+        }catch(err){
+          return err
+        }
+      }
+      ///////////////////////////////////
+      if('bd2_trich_tu' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.bd2_trich_tu": request.query.bd2_trich_tu}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('cau_bd2_tom_gon' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.cau_bd2_tom_gon": request.query.cau_bd2_tom_gon}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('bd2' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.bd2": request.query.bd2}})          
+        }catch(err){
+          return err
+        }
+      }
+      ///////////////////////////////////////////
+      if('phuc_am_trich_tu' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.phuc_am_trich_tu": request.query.phuc_am_trich_tu}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('cau_phuc_am_tom_gon' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.cau_phuc_am_tom_gon": request.query.cau_phuc_am_tom_gon}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('phuc_am' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.phuc_am": request.query.phuc_am}})          
+        }catch(err){
+          return err
+        }
+      }
+      //////////////////////////////////////
+      if('loi_nguyen_tin_huu' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.loi_nguyen_tin_huu": request.query.loi_nguyen_tin_huu}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('loi_nguyen_tien_le' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.loi_nguyen_tien_le": request.query.loi_nguyen_tien_le}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('ca_hiep_le' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.ca_hiep_le": request.query.ca_hiep_le}})          
+        }catch(err){
+          return err
+        }
+      }
+      let doc = await ngayle.findOne({_id: new this.mongo.ObjectId(request.query._id)})
+      return reply.view('admin/src/bien-tap-ban-van.ejs', { u: doc})
+    }else{
+      return reply.view('admin/src/bien-tap-ban-van.ejs', {u: null})
+    }
+  })
+  fastify.get('/bien-tap-ban-van--', async function (request, reply) {//Route dùng để hiệu chỉnh bản văn được crawl từ website// đã được sử dụng
+    
+    const ngayle = this.mongo.db.collection('ngay-le')
+    if('_id' in request.query)
+    {
+      console.log("_id existes: "+request.query._id)
+      let doc = await ngayle.findOne({_id: new this.mongo.ObjectId(request.query._id)})
+      let dan_vao_thanh_le = doc.ban_van['Dẫn vào Thánh Lễ']
+      let ca_nhap_le = doc.ban_van['Ca nhập lễ']
+      let loi_nguyen_nhap_le = doc.ban_van['Lời nguyện nhập lễ']
+
+      // let bd1_le_trich_tu = 
+      //let cau_bd1_le_tom_gon = 
+      let bd1_le = doc.ban_van['Bài Ðọc I:'] 
+
+      // let bd1_chan_trich_tu = 
+      // let cau_bd1_chan_tom_gon = 
+      // let bd1_chan = 
+
+      // let dap_ca_trich_tu =                                   
+      let dap_ca_le = doc.ban_van['Ðáp Ca:']
+
+
+      // let bd2_trich_tu = 
+      // let cau_bd2_tom_gon = 
+      let bd2 =  doc.ban_van['Bài Ðọc II:']
+
+      // let alleluia_trich_tu =                                   
+      let alleluia = doc.ban_van['Alleluia:']
+
+      // let phuc_am_trich_tu = doc.ban_van['']
+      // let cau_phuc_am_tom_gon = 
+      let phuc_am = doc.ban_van['Phúc Âm:']
+
+      let loi_nguyen_tin_huu = doc.ban_van['Lời nguyện tín hữu']
+      let loi_nguyen_tien_le = doc.ban_van['Lời nguyện tiến lễ']
+      let ca_hiep_le = doc.ban_van['Ca hiệp lễ']
+      let loi_nguyen_hiep_le = doc.ban_van['Lời nguyện hiệp lễ']
+
+      console.log(dan_vao_thanh_le)
+      if(dan_vao_thanh_le != undefined){
+        doc.ban_van.dan_vao_thanh_le = dan_vao_thanh_le.replace(/<p[^>]*>[\s\S]*?<\/p>/, '').replace("<p>",'').replace("</p>", '')
+      }
+      if(ca_nhap_le != undefined){
+        doc.ban_van.ca_nhap_le = ca_nhap_le.replace(/<p[^>]*>[\s\S]*?<\/p>/, '').replace("<p>",'').replace("</p>", '')
+      }
+      if(loi_nguyen_nhap_le){
+        doc.ban_van.loi_nguyen_nhap_le = loi_nguyen_nhap_le.replace(/<p[^>]*>[\s\S]*?<\/p>/, '')
+      }
+            
+
+      let document = new JSDOM('', 'text/html').window.document
+
+      const div = document.createElement('div');
+
+      // Insert the HTML string
+      if(bd1_le != undefined){
+        div.innerHTML = bd1_le
+        let f_p = div.getElementsByTagName('p')
+        doc.ban_van.bd1_le_trich_tu = f_p[0].textContent.split(":")[1]
+        doc.ban_van.cau_bd1_le_tom_gon = f_p[1].textContent
+        div.removeChild(f_p[1])
+        div.removeChild(f_p[0])
+        let last_i_bd1_le = -1
+        for (let index = 0; index < f_p.length; index++) {
+          const element = f_p[index];
+          if(element.textContent.match(/Ðó là lời Chúa/gi)!=null){
+            last_i_bd1_le = index
+            break
+          }                    
+        }
+        const div_x = document.createElement('div');
+        console.log("last index bd1 le: "+last_i_bd1_le)
+        if(last_i_bd1_le < div.getElementsByTagName('p').length - 1){
+          while(div.getElementsByTagName('p').length > last_i_bd1_le+1) {
+            // const element = f_p[index];
+            div_x.appendChild(f_p[last_i_bd1_le+1])      
+            console.log("--> "+div.getElementsByTagName('p').length)    
+          }
+          doc.ban_van.cau_bd1_chan_tom_gon = div_x.getElementsByTagName('p')[0].textContent
+          div_x.removeChild(div_x.getElementsByTagName('p')[0])
+          doc.ban_van.bd1_chan = div_x.innerHTML
+        }
+        
+        doc.ban_van.bd1_le = div.innerHTML
+        
+      }
+
+      if(dap_ca_le != undefined){
+        div.innerHTML = dap_ca_le
+        let f_p = div.getElementsByTagName('p')
+        doc.ban_van.dap_ca_le_trich_tu = f_p[0].textContent.split(":")[1]
+        div.removeChild(f_p[0])
+        doc.ban_van.dap_ca_le = div.innerHTML
+      }
+
+      if(bd2 != undefined){
+        div.innerHTML = bd2
+        let f_p = div.getElementsByTagName('p')
+        doc.ban_van.bd2_trich_tu = f_p[0].textContent.split(":")[1]
+        doc.ban_van.cau_bd2_tom_gon = f_p[1].textContent
+        div.removeChild(f_p[1])
+        div.removeChild(f_p[0])
+        doc.ban_van.bd2 = div.innerHTML
+      }
+
+      if(alleluia != undefined){
+        div.innerHTML = alleluia
+        let f_p = div.getElementsByTagName('p')
+        doc.ban_van.alleluia_trich_tu = f_p[0].textContent.split(":")[1]
+        div.removeChild(f_p[0])
+        doc.ban_van.alleluia = div.innerHTML
+      }
+
+      if(phuc_am != undefined){
+        div.innerHTML = phuc_am
+        let f_p = div.getElementsByTagName('p')
+        doc.ban_van.phuc_am_trich_tu = f_p[0].textContent.split(":")[1]
+        doc.ban_van.cau_phuc_am_tom_gon = f_p[1].textContent
+        div.removeChild(f_p[1])
+        div.removeChild(f_p[0])
+        doc.ban_van.phuc_am = div.innerHTML
+      }
+
+      if(loi_nguyen_tin_huu != undefined){
+        div.innerHTML = loi_nguyen_tin_huu
+        let f_p = div.getElementsByTagName('p')      
+        div.removeChild(f_p[0])
+        doc.ban_van.loi_nguyen_tin_huu = div.innerHTML
+      }
+
+      if(loi_nguyen_tien_le != undefined){
+        div.innerHTML = loi_nguyen_tien_le
+        let f_p = div.getElementsByTagName('p')      
+        div.removeChild(f_p[0])
+        doc.ban_van.loi_nguyen_tien_le = div.innerHTML
+      }
+
+      if(ca_hiep_le != undefined){
+        div.innerHTML = ca_hiep_le
+        let f_p = div.getElementsByTagName('p')      
+        div.removeChild(f_p[0])
+        doc.ban_van.ca_hiep_le = div.textContent
+      }
+
+      if(loi_nguyen_hiep_le != undefined){
+        div.innerHTML = loi_nguyen_hiep_le
+        let f_p = div.getElementsByTagName('p')      
+        div.removeChild(f_p[0])
+        doc.ban_van.loi_nguyen_hiep_le = div.innerHTML
+      }
+      console.log(doc)
+      try{        
+        await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: doc})
+        return reply.view('admin/src/bien-tap-ban-van.ejs', { u: doc})
+      }catch(err){
+        return err
+      }
+      
+    }else{
+      console.log("_id does not exist")
+      return reply.view('admin/src/bien-tap-ban-van.ejs')
+    }
+    // try{    
+    //   let col = await ngayle.find({}).toArray();       
+    //   return reply.view('admin/src/bien-tap-ban-van.ejs', { ngay_le: col})
+    // }catch(err){
+    //   return err
+    // }
   });
   fastify.get('/insert-lich/:jso', async function (request, reply) {
     const { jso } = request.params;
@@ -151,11 +477,11 @@ module.exports = async function (fastify, opts) {
     //   doc.ban_van = ban_van
     // }
     console.log(doc)
-    // try{
-    //   await collection.updateOne({_id: new this.mongo.ObjectId(_id)},{$set: doc})
-    // }catch(err){
-    //   return err
-    // }
+    try{
+      await collection.updateOne({_id: new this.mongo.ObjectId(_id)},{$set: doc})
+    }catch(err){
+      return err
+    }
     // Respond with a success message and the received data
     return { message: 'Data received!', data: doc }
   });
@@ -208,8 +534,8 @@ module.exports = async function (fastify, opts) {
       const ngay_le_2 = await tb_ngayle.find(query).toArray()
 
       // console.log("---> "+(n_date.getDate() >9?n_date.getDate():"0"+n_date.getDate())+"/"+(n_date.getMonth()+1 > 9? n_date.getMonth()+1: "0"+(n_date.getMonth()+1)))
-      // console.log(ngay_le_1)
-      // console.log(ngay_le_2)
+      console.log("Query 1 có: "+ngay_le_1.length)
+      console.log("Query 2 có: "+ngay_le_2.length)
       
       
       // return {lich: lich, ngay_le: ngay_le_1.concat(ngay_le_2)}

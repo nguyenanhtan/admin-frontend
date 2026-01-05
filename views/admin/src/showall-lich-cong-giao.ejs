@@ -280,7 +280,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="cau-loi-chua" class="form-label"><strong>Câu Lời Chúa</strong></label>
-                            <input type="text" class="form-control" id="cau-loi-chua" placeholder="Enter Câu Lời Chúa">
+                            <!-- <input type="text" class="form-control" id="cau-loi-chua" placeholder="Enter Câu Lời Chúa"> -->
+                            <textarea id="cau-loi-chua" rows="3" class="form-control"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="xu-chau-luot" class="form-label"><strong>Xứ Chầu Lượt</strong></label>
@@ -349,18 +350,26 @@
                     </div>
                     
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control r-bd-1">
-                        <button class="input-group-text use-bd-1"><i class="bi bi-pencil-square"></i> BĐ1</button>
-                        <input type="text" class="form-control r-bd-2" >
-                        <button class="input-group-text use-bd-2">BĐ2</button>
+                        <input type="text" class="form-control r-bd-1-le">
+                        <button class="input-group-text use-bd-1-le"><i class="bi bi-pencil-square"></i> BĐ1 Năm Lẻ</button>
                         
+                        <input id="" type="text" class="form-control r-dap-ca-le">  
+                        <button class="input-group-text use-dap-ca-le">Đáp ca</button>                                                                      
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control r-bd-1-chan">
+                        <button class="input-group-text use-bd-1-chan"><i class="bi bi-pencil-square"></i> BĐ1 Năm Chẵn</button>
+                        
+                        <input id="" type="text" class="form-control r-dap-ca-chan">                      
+                        <button class="input-group-text use-dap-ca-chan">Đáp ca</button>                                                  
                     </div>
                     
                     <div class="input-group mb-3">
-                        <button class="input-group-text use-dap-ca">Đáp ca</button>
-                        <input id="" type="text" class="form-control r-dap-ca">
-                        <button class="input-group-text use-alleluia">Alleluia</button>
+                        <input type="text" class="form-control r-bd-2" >
+                        <button class="input-group-text use-bd-2">BĐ2</button>
+                        
                         <input id="alleluia" type="text" class="form-control r-alleluia"  >
+                        <button class="input-group-text use-alleluia">Alleluia</button>
                     </div>
                     <div class="input-group mb-3">
                         <button class="input-group-text use-tin-mung">Tin mừng</button>
@@ -656,62 +665,88 @@
                     }
                     $("#col-ngay-le").empty()
                     data.ngay_le.forEach(function(e){
-                        //console.log("---->"+e.title)
-                        let card_ngay_le = $("#card-ngay-le").clone(true, true)
-                        card_ngay_le.appendTo("#col-ngay-le")
-                        // console.log(card_ngay_le.html())
-                        card_ngay_le.show()
+                        // console.log("---->"+$("#rentity-"+e._id).length)
+                        if($("#rentity-"+e._id).length == 0){                            
+                            let card_ngay_le = $("#card-ngay-le").clone(true, true)
+                            card_ngay_le.appendTo("#col-ngay-le")
+                            card_ngay_le.attr("id","rentity-"+e._id)
+                            // console.log(card_ngay_le.html())
+                            card_ngay_le.show()
 
-                        card_ngay_le.find(".card-title").text(e.title)
-                        card_ngay_le.find(".r-id").val(e._id)
+                            card_ngay_le.find(".card-title").text(e.title)
+                            card_ngay_le.find(".r-id").val(e._id)
 
-                        if(e.date != undefined && e.date != ""){
-                            card_ngay_le.find(".r-date").val(e.date)
-                        }
-                        if(e.bac_le != undefined && e.bac_le != ""){
-                            card_ngay_le.find(".r-bac-le").val(e.bac_le)
-                        }
-                        
-                        if(e.mau_ao_le != undefined && e.mau_ao_le != ""){
-                            card_ngay_le.find(".r-mau-ao-le").val(e.mau_ao_le)
-                        }
-                        if(e.url != undefined && e.url != ""){
-                            card_ngay_le.find(".r-url").val(e.url)
-                        }
-                        if(e.assigned_date != undefined){
-                            card_ngay_le.find(".r-assigned-date").val(data.lich.date)
-                        }
-                        
-                        if(e.ban_van != undefined){
+                            if(e.date != undefined && e.date != ""){
+                                card_ngay_le.find(".r-date").val(e.date)
+                            }
+                            if(e.bac_le != undefined && e.bac_le != ""){
+                                card_ngay_le.find(".r-bac-le").val(e.bac_le)
+                            }
                             
-                            if(e.ban_van["Bài Ðọc I:"] != undefined){
-                                //console.log(e.ban_van["Bài Ðọc I:"])
-                                let tmp = $.parseHTML(e.ban_van["Bài Ðọc I:"])
-                                //console.log(tmp[0])                            
-                                card_ngay_le.find(".r-bd-1").val($(tmp[0]).text().split(":")[1].trim())
+                            if(e.mau_ao_le != undefined && e.mau_ao_le != ""){
+                                card_ngay_le.find(".r-mau-ao-le").val(e.mau_ao_le)
                             }
+                            if(e.url != undefined && e.url != ""){
+                                card_ngay_le.find(".r-url").val(e.url)
+                            }
+                            if(e.assigned_date != undefined){
+                                card_ngay_le.find(".r-assigned-date").val(data.lich.date)
+                            }
+                            if(e.ban_van.bd1_le_trich_tu != undefined){
+                                card_ngay_le.find(".r-bd-1-le").val(e.ban_van.bd1_le_trich_tu)
+                            }
+                            if(e.ban_van.dap_ca_le_trich_tu != undefined){
+                                card_ngay_le.find(".r-dap-ca-le").val(e.ban_van.dap_ca_le_trich_tu)
+                            }
+                            if(e.ban_van.bd1_chan_trich_tu != undefined){
+                                card_ngay_le.find(".r-bd-1-chan").val(e.ban_van.bd1_chan_trich_tu)
+                            }
+                            if(e.ban_van.dap_ca_chan_trich_tu != undefined){
+                                card_ngay_le.find(".r-dap-ca-chan").val(e.ban_van.dap_ca_chan_trich_tu)
+                            }
+                            if(e.ban_van.bd2_trich_tu != undefined){
+                                card_ngay_le.find(".r-bd-2").val(e.ban_van.bd2_trich_tu)
+                            }
+                            if(e.ban_van.alleluia_trich_tu != undefined){
+                                card_ngay_le.find(".r-alleluia").val(e.ban_van.alleluia_trich_tu)
+                            }
+                            if(e.ban_van.phuc_am_trich_tu != undefined){
+                                card_ngay_le.find(".r-tin-mung").val(e.ban_van.phuc_am_trich_tu)
+                            }
+                            if(e.ban_van.cau_phuc_am_tom_gon != undefined){
+                                card_ngay_le.find(".r-cau-loi-chua").val(e.ban_van.cau_phuc_am_tom_gon.replace('“','').replace('”',''))
+                            }
+                            // if(e.ban_van != undefined){
+                                
+                            //     if(e.ban_van["Bài Ðọc I:"] != undefined){
+                            //         //console.log(e.ban_van["Bài Ðọc I:"])
+                            //         let tmp = $.parseHTML(e.ban_van["Bài Ðọc I:"])
+                            //         //console.log(tmp[0])                            
+                            //         card_ngay_le.find(".r-bd-1").val($(tmp[0]).text().split(":")[1].trim())
+                            //     }
 
-                            if(e.ban_van["Bài Ðọc II:"] != undefined){
-                                //console.log(e.ban_van["Bài Ðọc II:"])
-                                let tmp = $.parseHTML(e.ban_van["Bài Ðọc II:"])
-                                //console.log(tmp[0])   
-                                card_ngay_le.find(".r-bd-2").val($(tmp[0]).text().split(":")[1].trim())
-                            }
+                            //     if(e.ban_van["Bài Ðọc II:"] != undefined){
+                            //         //console.log(e.ban_van["Bài Ðọc II:"])
+                            //         let tmp = $.parseHTML(e.ban_van["Bài Ðọc II:"])
+                            //         //console.log(tmp[0])   
+                            //         card_ngay_le.find(".r-bd-2").val($(tmp[0]).text().split(":")[1].trim())
+                            //     }
 
-                            if(e.ban_van["Ðáp Ca:"] != undefined){
-                                let tmp = $.parseHTML(e.ban_van["Ðáp Ca:"])
-                                card_ngay_le.find(".r-dap-ca").val($(tmp[0]).text().split(":")[1].trim())
-                            }
+                            //     if(e.ban_van["Ðáp Ca:"] != undefined){
+                            //         let tmp = $.parseHTML(e.ban_van["Ðáp Ca:"])
+                            //         card_ngay_le.find(".r-dap-ca").val($(tmp[0]).text().split(":")[1].trim())
+                            //     }
 
-                            if(e.ban_van["Alleluia:"] != undefined){
-                                let tmp = $.parseHTML(e.ban_van["Alleluia:"])
-                                card_ngay_le.find(".r-alleluia").val($(tmp[0]).text().split(":")[1].trim())
-                            }
+                            //     if(e.ban_van["Alleluia:"] != undefined){
+                            //         let tmp = $.parseHTML(e.ban_van["Alleluia:"])
+                            //         card_ngay_le.find(".r-alleluia").val($(tmp[0]).text().split(":")[1].trim())
+                            //     }
 
-                            if(e.ban_van["Phúc Âm:"] != undefined){
-                                 let tmp = $.parseHTML(e.ban_van["Phúc Âm:"])
-                                card_ngay_le.find(".r-tin-mung").val($(tmp[0]).text().split(":")[1].trim())
-                            }
+                            //     if(e.ban_van["Phúc Âm:"] != undefined){
+                            //          let tmp = $.parseHTML(e.ban_van["Phúc Âm:"])
+                            //         card_ngay_le.find(".r-tin-mung").val($(tmp[0]).text().split(":")[1].trim())
+                            //     }
+                            // }
                         }
                         
                     })

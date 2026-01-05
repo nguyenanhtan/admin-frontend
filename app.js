@@ -67,8 +67,6 @@ module.exports = async function (fastify, opts) {
     prefix: '/', // Creates a virtual path prefix in the URL
   });
 
-  
-
 
 }
 
