@@ -94,7 +94,31 @@ module.exports = async function (fastify, opts) {
       return err
     }
   });
-  fastify.get('/xoa-truong', async function (request, reply) {
+  fastify.get('/hc-dap-ca', async function (request, reply) {
+    
+    const ngayle = this.mongo.db.collection('ngay-le')
+    try{
+    
+      let col = await ngayle.find({}).toArray();
+       
+      return reply.view('admin/src/hc-dap-ca.ejs', { ngay_le: col})
+    }catch(err){
+      return err
+    }
+  });
+  fastify.get('/hc-mua-chay', async function (request, reply) {
+    
+    const ngayle = this.mongo.db.collection('ngay-le')
+    try{
+    
+      let col = await ngayle.find({}).toArray();
+       
+      return reply.view('admin/src/hc-mua-chay.ejs', { ngay_le: col})
+    }catch(err){
+      return err
+    }
+  });
+  fastify.get('/xoa-truong-', async function (request, reply) {
     const ngayle = this.mongo.db.collection('ngay-le')
     if('_id' in request.query){
       try{        
@@ -298,6 +322,13 @@ module.exports = async function (fastify, opts) {
       if('loi_nguyen_hiep_le' in request.query){
         try{        
           await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.loi_nguyen_hiep_le": request.query.loi_nguyen_hiep_le}})          
+        }catch(err){
+          return err
+        }
+      }
+      if('kinh_tien_tung' in request.query){
+        try{        
+          await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: {"ban_van.kinh_tien_tung": request.query.kinh_tien_tung}})          
         }catch(err){
           return err
         }

@@ -556,7 +556,7 @@
                             <form>
                             <div class="row mb-4 block-ban-van">
                                 
-                                    <input type="hidden" value="<%= u._id%>" class="_id" name="_id">
+                                <input type="hidden" value="<%= u._id%>" class="_id" name="_id">
                                 <div class="col-md-6">
                                     <span class=""><strong>Bài Ðọc I Năm Chẵn:</strong></span>
                                     <!-- <button class="btn btn-secondary hc-bd1-chan"><i class="bi bi-arrow-clockwise"></i></button>   -->
@@ -698,6 +698,10 @@
                                     <span class=""><strong>Lời nguyện tiến lễ</strong></span>
                                     <textarea type="text" rows="6"class="form-control r-loi-nguyen-tien-le" name="loi_nguyen_tien_le"><%= u.ban_van.loi_nguyen_tien_le %></textarea>                                    
                                 </div>     
+                                <div class="col-md-6">
+                                    <span class=""><strong>Kinh Tiền Tụng</strong></span>
+                                    <textarea type="text" rows="6"class="form-control r-kinh-tien-tung" name="kinh_tien_tung"><%= u.ban_van.kinh_tien_tung %></textarea>                                    
+                                </div>    
                                 <div class="col-md-6">
                                     <span class=""><strong>Ca hiệp lễ</strong></span>
                                     <textarea type="text" rows="6" class="form-control r-ca-hiep-le" name="ca_hiep_le"><%= u.ban_van.ca_hiep_le %></textarea>                                    
