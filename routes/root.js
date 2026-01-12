@@ -14,7 +14,7 @@ module.exports = async function (fastify, opts) {
     // return { root: true, at: false }
   });
   fastify.get('/helloworld', async function (request, reply) {
-    return reply.view('admin/src/test-dynamic-field.ejs')
+    return reply.view('admin/test-dynamic-field.ejs')
     return { root: true, at: "hello world" } 
   });
   fastify.get('/ngay-le', async function (req, reply) {
@@ -45,7 +45,7 @@ module.exports = async function (fastify, opts) {
       //   r.push(doc);
       // });
       //console.log(alluser);
-      return reply.view('admin/src/index.ejs', { numofuser: alluser})
+      return reply.view('admin/index.ejs', { numofuser: alluser})
       // return alluser;
     }catch(err){
       return err
@@ -63,7 +63,7 @@ module.exports = async function (fastify, opts) {
         r.push(doc);
       });
       //console.log(alluser);
-      return reply.view('admin/src/temp-man.ejs', { numofuser: r})
+      return reply.view('admin/temp-man.ejs', { numofuser: r})
     }catch(err){
       return err
     }
@@ -74,13 +74,13 @@ module.exports = async function (fastify, opts) {
     try{
       //let query = { date: "" };
       let alluser = await users.find({}).sort({date: 1}).toArray();     
-      return reply.view('admin/src/showall-lich-cong-giao.ejs', { lich: alluser})
+      return reply.view('admin/showall-lich-cong-giao.ejs', { lich: alluser})
     }catch(err){
       return err
     }
   });
   fastify.get('/bien-tap-lich', async function (request, reply) {
-      return reply.view('admin/src/showall-lich-cong-giao.ejs', { lich: alluser})
+      return reply.view('admin/showall-lich-cong-giao.ejs', { lich: alluser})
   });
   fastify.get('/bien-tap-ngay-le', async function (request, reply) {
     
@@ -89,11 +89,12 @@ module.exports = async function (fastify, opts) {
     
       let col = await ngayle.find({}).toArray();
        
-      return reply.view('admin/src/bien-tap-ngay-le.ejs', { ngay_le: col})
+      return reply.view('admin/bien-tap-ngay-le.ejs', { ngay_le: col})
     }catch(err){
       return err
     }
   });
+  
   fastify.get('/hc-dap-ca', async function (request, reply) {
     
     const ngayle = this.mongo.db.collection('ngay-le')
@@ -101,7 +102,7 @@ module.exports = async function (fastify, opts) {
     
       let col = await ngayle.find({}).toArray();
        
-      return reply.view('admin/src/hc-dap-ca.ejs', { ngay_le: col})
+      return reply.view('admin/hc-dap-ca.ejs', { ngay_le: col})
     }catch(err){
       return err
     }
@@ -113,7 +114,7 @@ module.exports = async function (fastify, opts) {
     
       let col = await ngayle.find({}).toArray();
        
-      return reply.view('admin/src/hc-mua-chay.ejs', { ngay_le: col})
+      return reply.view('admin/hc-mua-chay.ejs', { ngay_le: col})
     }catch(err){
       return err
     }
@@ -337,10 +338,10 @@ module.exports = async function (fastify, opts) {
       if('is_ajax' in request.query){
         return 'Server message: Update Successful'
       }else{
-        return reply.view('admin/src/bien-tap-ban-van.ejs', { u: doc})
+        return reply.view('admin/bien-tap-ban-van.ejs', { u: doc})
       }
     }else{
-      return reply.view('admin/src/bien-tap-ban-van.ejs', {u: null})
+      return reply.view('admin/bien-tap-ban-van.ejs', {u: null})
     }
   })
   fastify.get('/bien-tap-ban-van--', async function (request, reply) {//Route dùng để hiệu chỉnh bản văn được crawl từ website// đã được sử dụng
@@ -497,14 +498,14 @@ module.exports = async function (fastify, opts) {
       console.log(doc)
       try{        
         await ngayle.updateOne({_id: new this.mongo.ObjectId(request.query._id)},{$set: doc})
-        return reply.view('admin/src/bien-tap-ban-van.ejs', { u: doc})
+        return reply.view('admin/bien-tap-ban-van.ejs', { u: doc})
       }catch(err){
         return err
       }
       
     }else{
       console.log("_id does not exist")
-      return reply.view('admin/src/bien-tap-ban-van.ejs')
+      return reply.view('admin/bien-tap-ban-van.ejs')
     }
     // try{    
     //   let col = await ngayle.find({}).toArray();       
