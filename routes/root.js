@@ -869,6 +869,14 @@ module.exports = async function (fastify, opts) {
       return err
     }
   });
+  fastify.get('/save-code', async function (request, reply) {
+    
+    try{
+      return reply.view('nghi-thuc/save-code.ejs')
+    }catch(err){
+      return err
+    }
+  });
   fastify.get('/get-nghi-thuc', async function (request, reply) {
     const tb_nghi_thuc = this.mongo.db.collection('nghi-thuc')
     let nghi_thuc =  await tb_nghi_thuc.find({}).toArray()
