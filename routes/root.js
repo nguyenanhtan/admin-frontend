@@ -766,6 +766,7 @@ module.exports = async function (fastify, opts) {
               arr_cac_le[j] = tmp
               //break
             }
+            // console.log(arr_cac_le[j].ban_van.bd1_le)
             
           }
           
