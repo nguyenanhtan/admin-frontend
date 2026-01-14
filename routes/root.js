@@ -699,30 +699,47 @@ module.exports = async function (fastify, opts) {
           let a_date = new Date(element)
           let arr_cac_le = await ngay_le.find({['assigned_date.'+a_date.getFullYear()]:element}).toArray()
           cur_month[index].arr_cac_le = arr_cac_le
-          for (let j = 1; j < arr_cac_le.length; j++) {
+          for (let j = 0; j < arr_cac_le.length; j++) {
+            if((arr_cac_le[j].ban_van.bd1_chan_trich_tu != "" && arr_cac_le[j].ban_van.bd1_chan_trich_tu != undefined) && a_date.getFullYear()%2==0){
+              arr_cac_le[j].ban_van.bd1_le = arr_cac_le[j].ban_van.bd1_chan
+              arr_cac_le[j].ban_van.bd1_le_trich_tu = arr_cac_le[j].ban_van.bd1_chan_trich_tu
+              arr_cac_le[j].ban_van.cau_bd1_le_tom_gon = arr_cac_le[j].ban_van.cau_bd1_chan_tom_gon
+
+              arr_cac_le[j].ban_van.dap_ca_le_trich_tu = arr_cac_le[j].ban_van.dap_ca_chan_trich_tu
+              arr_cac_le[j].ban_van.dap_ca_le = arr_cac_le[j].ban_van.dap_ca_chan
+
+            }
             if(arr_cac_le[j].title == cur_month[index].title){
               let tmp = arr_cac_le[0]
               arr_cac_le[0] = arr_cac_le[j]
               arr_cac_le[j] = tmp
-              break
+              //break
             }
             
           }
-
-          
         }
         for (let index = 0; index < prev_month.length; index++) {
           const element = prev_month[index].date;
           let a_date = new Date(element)
           let arr_cac_le = await ngay_le.findOne({['assigned_date.'+a_date.getFullYear()]:element})
           prev_month[index].arr_cac_le = arr_cac_le
-          for (let j = 1; j < arr_cac_le.length; j++) {
+          for (let j = 0; j < arr_cac_le.length; j++) {
+            if((arr_cac_le[j].ban_van.bd1_chan_trich_tu != "" && arr_cac_le[j].ban_van.bd1_chan_trich_tu != undefined) && a_date.getFullYear()%2==0){
+              arr_cac_le[j].ban_van.bd1_le = arr_cac_le[j].ban_van.bd1_chan
+              arr_cac_le[j].ban_van.bd1_le_trich_tu = arr_cac_le[j].ban_van.bd1_chan_trich_tu
+              arr_cac_le[j].ban_van.cau_bd1_le_tom_gon = arr_cac_le[j].ban_van.cau_bd1_chan_tom_gon
+
+              arr_cac_le[j].ban_van.dap_ca_le_trich_tu = arr_cac_le[j].ban_van.dap_ca_chan_trich_tu
+              arr_cac_le[j].ban_van.dap_ca_le = arr_cac_le[j].ban_van.dap_ca_chan
+
+            }
             if(arr_cac_le[j].title == prev_month[index].title){
               let tmp = arr_cac_le[0]
               arr_cac_le[0] = arr_cac_le[j]
               arr_cac_le[j] = tmp
-              break
+              //break
             }
+            
           }
           
         }
@@ -733,13 +750,23 @@ module.exports = async function (fastify, opts) {
           let arr_cac_le = await ngay_le.findOne({['assigned_date.'+a_date.getFullYear()]:element})
           nxt_month[index].arr_cac_le = arr_cac_le
 
-          for (let j = 1; j < arr_cac_le.length; j++) {
+          for (let j = 0; j < arr_cac_le.length; j++) {
+            if((arr_cac_le[j].ban_van.bd1_chan_trich_tu != ""&& arr_cac_le[j].ban_van.bd1_chan_trich_tu != undefined) && a_date.getFullYear()%2==0){
+              arr_cac_le[j].ban_van.bd1_le = arr_cac_le[j].ban_van.bd1_chan
+              arr_cac_le[j].ban_van.bd1_le_trich_tu = arr_cac_le[j].ban_van.bd1_chan_trich_tu
+              arr_cac_le[j].ban_van.cau_bd1_le_tom_gon = arr_cac_le[j].ban_van.cau_bd1_chan_tom_gon
+
+              arr_cac_le[j].ban_van.dap_ca_le_trich_tu = arr_cac_le[j].ban_van.dap_ca_chan_trich_tu
+              arr_cac_le[j].ban_van.dap_ca_le = arr_cac_le[j].ban_van.dap_ca_chan
+
+            }
             if(arr_cac_le[j].title == nxt_month[index].title){
               let tmp = arr_cac_le[0]
               arr_cac_le[0] = arr_cac_le[j]
               arr_cac_le[j] = tmp
-              break
+              //break
             }
+            
           }
           
         }
@@ -861,12 +888,24 @@ module.exports = async function (fastify, opts) {
       return err
     }
   });
-  fastify.get('/nghi-thuc-trao-minh-thanh-ngoai-thanh-le', async function (request, reply) {
-    
-    try{
-      return reply.view('nghi-thuc/trao-minh-thanh-ngoai-thanh-le.ejs')
-    }catch(err){
-      return err
+  fastify.get('/nghi-thuc-edit', async function (request, reply) {
+    const tb_nghi_thuc = this.mongo.db.collection('nghi-thuc')
+    const {_id} = request.query
+    if(_id != undefined){
+
+      try{
+        let nghi_thuc =  await tb_nghi_thuc.findOne({_id:new this.mongo.ObjectId(_id)})
+        return reply.view('nghi-thuc/nghi-thuc-edit.ejs',{nghi_thuc:nghi_thuc})
+      }catch(err){
+        return err
+      }
+    }else{
+      let nghi_thuc =  await tb_nghi_thuc.find({}).toArray()
+      try{
+        return reply.view('nghi-thuc/nghi-thuc-edit.ejs',{nghi_thuc:nghi_thuc})
+      }catch(err){
+        return err
+      }
     }
   });
   fastify.get('/save-code', async function (request, reply) {
