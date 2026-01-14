@@ -886,6 +886,15 @@ module.exports = async function (fastify, opts) {
       return err
     }
   });
+  fastify.get('/get-kinh-nguyen', async function (request, reply) {
+    const tb_nghi_thuc = this.mongo.db.collection('kinh-nguyen')
+    let nghi_thuc =  await tb_nghi_thuc.find({}).toArray()
+    try{
+      return JSON.stringify(nghi_thuc)
+    }catch(err){
+      return err
+    }
+  });
 }
 
 
