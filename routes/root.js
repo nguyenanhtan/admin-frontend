@@ -967,18 +967,25 @@ module.exports = async function (fastify, opts) {
       let key = element.group
       if(key != undefined && key != ''){
         key = removeVietnameseTones(key)
-        key = key.toLowerCase().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');  
+        key = key.toLowerCase().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '_').replace(/-+/g, '_');  
 
-        if(!Array.isArray(r_kinh[`${key}`])){
-          r_kinh[`${key}`] = []
+        if(r_kinh[`${key}`] == undefined){
+          r_kinh[`${key}`] = {}
+          r_kinh[`${key}`].data = []
+          r_kinh[`${key}`].level = 1
+          r_kinh[`${key}`].group_name = element.group
         }
-        r_kinh[`${key}`].push(element)
-        // delete r_kinh[`${element.group}`][r_kinh[`${element.group}`].length-1]["group"]
+        delete element["group"]
+        r_kinh[`${key}`].data.push(element)
+        
+        //delete r_kinh[`${key}`].data[r_kinh[`${key}`].length-1]["group"]
       }else{
         let key = element.title
         key = removeVietnameseTones(key)
         key = key.toLowerCase().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
-        r_kinh[`${key}`] = element
+        r_kinh[`${key}`] = {}
+        r_kinh[`${key}`].data = element
+        r_kinh[`${key}`].level = 0
       }
     }
     try{
