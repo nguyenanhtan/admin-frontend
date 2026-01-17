@@ -81,74 +81,20 @@
       height: 100%;
     }
   </style>
-
-  <style>
-        body {
-            font-family: 'Times New Roman', serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.8;
-            background-color: #f9f7f4;
-        }
-        h1 {
-            text-align: center;
-            color: #8B0000;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        h2 {
-            text-align: center;
-            color: #8B0000;
-            font-size: 20px;
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-        h3 {
-            text-align: center;
-            color: #8B0000;
-            font-size: 18px;
-            font-style: italic;
-            margin-top: 10px;
-            margin-bottom: 15px;
-        }
-        .italic {
-            font-style: italic;
-            color: #555;
-            margin: 15px 0;color: red;
-        }
-        .speaker {
-            font-weight: bold;
-            color: #8B0000;
-        }
-        .dialogue {
-            margin: 10px 0;
-        }
-        .sign {
-            font-weight: bold;
-            font-size: 18px;
-            color: red;
-        }
-        hr {
-            border: none;
-            border-top: 2px solid #8B0000;
-            margin: 30px 0;
-        }
-    </style>
 </head>
 <body>
-  <header>EDIT CÁC NGHI THỨC THƯỜNG DÙNG</header>
+  <header>EDIT CÁC KINH NGUYỆN</header>
 
   <div class="container">
     <!-- Navigation -->
     <div class="nav">
       <h3>Nghi Thức</h3>
       <%
-    for(let i = 0; i < nghi_thuc.length;i++){%>
+    for(let i = 0; i < kinh_nguyen.length;i++){%>
         <span>
             
-        <input type="hidden" value="<%= nghi_thuc[i].html%>" class="html-val"/>
-        <button onclick="loadTemplate('<%= nghi_thuc[i]._id%>', this.previousElementSibling.value)"><%= nghi_thuc[i].title%></button>
+        <input type="hidden" value="<%= kinh_nguyen[i].html%>" class="html-val"/>
+        <button onclick="loadTemplate('<%= kinh_nguyen[i]._id%>', this.previousElementSibling.value)"><%= kinh_nguyen[i].title%></button>
         </span>
     
     <%}%>

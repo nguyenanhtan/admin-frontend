@@ -807,6 +807,7 @@ module.exports = async function (fastify, opts) {
         let today = await tb_lich.findOne({date: day_string})
         let arr_cac_le = await ngay_le.find({['assigned_date.'+a_date.getFullYear()]:day_string}).toArray()
         today.arr_cac_le = arr_cac_le
+
         return today
       }else{
         reply.code(400).send({ error: 'Missing required parameter: date' });
@@ -909,6 +910,26 @@ module.exports = async function (fastify, opts) {
       }
     }
   });
+  fastify.get('/kinh-nguyen-edit', async function (request, reply) {
+    const tb_kinh_nguyen = this.mongo.db.collection('kinh-nguyen')
+    const {_id} = request.query
+    if(_id != undefined){
+
+      try{
+        let kinh_nguyen =  await tb_kinh_nguyen.findOne({_id:new this.mongo.ObjectId(_id)})
+        return reply.view('nghi-thuc/kinh-nguyen-edit.ejs',{kinh_nguyen:kinh_nguyen})
+      }catch(err){
+        return err
+      }
+    }else{
+      let kinh_nguyen =  await tb_kinh_nguyen.find({}).toArray()
+      try{
+        return reply.view('nghi-thuc/kinh-nguyen-edit.ejs',{kinh_nguyen:kinh_nguyen})
+      }catch(err){
+        return err
+      }
+    }
+  });
   fastify.get('/save-code', async function (request, reply) {
     
     try{
@@ -921,16 +942,35 @@ module.exports = async function (fastify, opts) {
     const tb_nghi_thuc = this.mongo.db.collection('nghi-thuc')
     let nghi_thuc =  await tb_nghi_thuc.find({}).toArray()
     try{
-      return JSON.stringify(nghi_thuc)
+      return nghi_thuc
     }catch(err){
       return err
     }
   });
+  // fastify.get('/get-kinh-nguyen', async function (request, reply) {
+  //   const tb_kinh_nguyen = this.mongo.db.collection('kinh-nguyen')
+  //   let kinh_nguyen =  await tb_kinh_nguyen.find({}).toArray()
+  //   try{
+  //     return kinh_nguyen
+  //   }catch(err){
+  //     return err
+  //   }
+  // });
   fastify.get('/get-kinh-nguyen', async function (request, reply) {
-    const tb_nghi_thuc = this.mongo.db.collection('kinh-nguyen')
-    let nghi_thuc =  await tb_nghi_thuc.find({}).toArray()
+    const tb_kinh_nguyen = this.mongo.db.collection('kinh-nguyen')
+    let kinh_nguyen =  await tb_kinh_nguyen.find({}).toArray()
+    let r_kinh = {}
+    for (let i = 0; i < kinh_nguyen.length; i++) {
+      const element = kinh_nguyen[i];
+      if(!Array.isArray(r_kinh[`${element.group}`])){
+        r_kinh[`${element.group}`] = []
+      }
+      r_kinh[`${element.group}`].push(element)
+      delete r_kinh[`${element.group}`][r_kinh[`${element.group}`].length-1]["group"]
+      
+    }
     try{
-      return JSON.stringify(nghi_thuc)
+      return r_kinh
     }catch(err){
       return err
     }
