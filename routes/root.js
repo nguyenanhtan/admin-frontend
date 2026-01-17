@@ -973,7 +973,7 @@ module.exports = async function (fastify, opts) {
           r_kinh[`${key}`] = {}
           r_kinh[`${key}`].data = []
           r_kinh[`${key}`].level = 1
-          r_kinh[`${key}`].group_name = element.group
+          r_kinh[`${key}`].title = element.group
         }
         delete element["group"]
         r_kinh[`${key}`].data.push(element)
@@ -986,6 +986,7 @@ module.exports = async function (fastify, opts) {
         r_kinh[`${key}`] = {}
         r_kinh[`${key}`].data = element
         r_kinh[`${key}`].level = 0
+        r_kinh[`${key}`].title = element.title
       }
     }
     try{
