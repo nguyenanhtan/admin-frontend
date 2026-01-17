@@ -947,16 +947,16 @@ module.exports = async function (fastify, opts) {
       return err
     }
   });
-  // fastify.get('/get-kinh-nguyen', async function (request, reply) {
-  //   const tb_kinh_nguyen = this.mongo.db.collection('kinh-nguyen')
-  //   let kinh_nguyen =  await tb_kinh_nguyen.find({}).toArray()
-  //   try{
-  //     return kinh_nguyen
-  //   }catch(err){
-  //     return err
-  //   }
-  // });
   fastify.get('/get-kinh-nguyen', async function (request, reply) {
+    const tb_kinh_nguyen = this.mongo.db.collection('kinh-nguyen')
+    let kinh_nguyen =  await tb_kinh_nguyen.find({}).toArray()
+    try{
+      return kinh_nguyen
+    }catch(err){
+      return err
+    }
+  });
+  fastify.get('/get-kinh-nguyen-grouped', async function (request, reply) {
     const tb_kinh_nguyen = this.mongo.db.collection('kinh-nguyen')
     let kinh_nguyen =  await tb_kinh_nguyen.find({}).toArray()
     let r_kinh = {}
