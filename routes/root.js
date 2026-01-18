@@ -695,35 +695,12 @@ module.exports = async function (fastify, opts) {
         cur_month = await tb_lich.find({date: {$regex: `^${year}-${month}-\\d{2}`}}).sort({date: 1}).toArray()
         prev_month = await tb_lich.find({date: {$regex: `^${p_y}-${p_m}-\\d{2}`}}).sort({date: 1}).toArray()
         nxt_month = await tb_lich.find({date: {$regex: `^${n_y}-${n_m}-\\d{2}`}}).sort({date: 1}).toArray()
-        for (let index = 0; index < cur_month.length; index++) {
-          const element = cur_month[index].date;
-          let a_date = new Date(element)
-          let arr_cac_le = await ngay_le.find({['assigned_date.'+a_date.getFullYear()]:element}).toArray()
-          cur_month[index].arr_cac_le = arr_cac_le
-          for (let j = 0; j < arr_cac_le.length; j++) {
-            if((arr_cac_le[j].ban_van.bd1_chan_trich_tu != "" && arr_cac_le[j].ban_van.bd1_chan_trich_tu != undefined) && a_date.getFullYear()%2==0){
-              arr_cac_le[j].ban_van.bd1_le = arr_cac_le[j].ban_van.bd1_chan
-              arr_cac_le[j].ban_van.bd1_le_trich_tu = arr_cac_le[j].ban_van.bd1_chan_trich_tu
-              arr_cac_le[j].ban_van.cau_bd1_le_tom_gon = arr_cac_le[j].ban_van.cau_bd1_chan_tom_gon
-
-              arr_cac_le[j].ban_van.dap_ca_le_trich_tu = arr_cac_le[j].ban_van.dap_ca_chan_trich_tu
-              arr_cac_le[j].ban_van.dap_ca_le = arr_cac_le[j].ban_van.dap_ca_chan
-
-            }
-            if(arr_cac_le[j].title == cur_month[index].title){
-              let tmp = arr_cac_le[0]
-              arr_cac_le[0] = arr_cac_le[j]
-              arr_cac_le[j] = tmp
-              //break
-            }
-            
-          }
-        }
+        
         for (let index = 0; index < prev_month.length; index++) {
           const element = prev_month[index].date;
           let a_date = new Date(element)
           let arr_cac_le = await ngay_le.findOne({['assigned_date.'+a_date.getFullYear()]:element})
-          prev_month[index].arr_cac_le = arr_cac_le
+          
           for (let j = 0; j < arr_cac_le.length; j++) {
             if((arr_cac_le[j].ban_van.bd1_chan_trich_tu != "" && arr_cac_le[j].ban_van.bd1_chan_trich_tu != undefined) && a_date.getFullYear()%2==0){
               arr_cac_le[j].ban_van.bd1_le = arr_cac_le[j].ban_van.bd1_chan
@@ -734,7 +711,7 @@ module.exports = async function (fastify, opts) {
               arr_cac_le[j].ban_van.dap_ca_le = arr_cac_le[j].ban_van.dap_ca_chan
 
             }
-            if(arr_cac_le[j].title == prev_month[index].title){
+            if(arr_cac_le[j].title.toLowerCase().localeCompare(prev_month[index].title.toLowerCase()) == 0){
               let tmp = arr_cac_le[0]
               arr_cac_le[0] = arr_cac_le[j]
               arr_cac_le[j] = tmp
@@ -742,14 +719,40 @@ module.exports = async function (fastify, opts) {
             }
             
           }
+          prev_month[index].arr_cac_le = arr_cac_le
           
         }
+        for (let index = 0; index < cur_month.length; index++) {
+          const element = cur_month[index].date;
+          let a_date = new Date(element)
+          let arr_cac_le = await ngay_le.find({['assigned_date.'+a_date.getFullYear()]:element}).toArray()
+          
+          for (let j = 0; j < arr_cac_le.length; j++) {
+            if((arr_cac_le[j].ban_van.bd1_chan_trich_tu != "" && arr_cac_le[j].ban_van.bd1_chan_trich_tu != undefined) && a_date.getFullYear()%2==0){
+              arr_cac_le[j].ban_van.bd1_le = arr_cac_le[j].ban_van.bd1_chan
+              arr_cac_le[j].ban_van.bd1_le_trich_tu = arr_cac_le[j].ban_van.bd1_chan_trich_tu
+              arr_cac_le[j].ban_van.cau_bd1_le_tom_gon = arr_cac_le[j].ban_van.cau_bd1_chan_tom_gon
 
+              arr_cac_le[j].ban_van.dap_ca_le_trich_tu = arr_cac_le[j].ban_van.dap_ca_chan_trich_tu
+              arr_cac_le[j].ban_van.dap_ca_le = arr_cac_le[j].ban_van.dap_ca_chan
+
+            }
+            if(arr_cac_le[j].title.toLowerCase().localeCompare(cur_month[index].title.toLowerCase()) == 0){
+              let tmp = arr_cac_le[0]
+              arr_cac_le[0] = arr_cac_le[j]
+              arr_cac_le[j] = tmp
+              //break
+            }
+            
+          }
+          cur_month[index].arr_cac_le = arr_cac_le
+          prev_month.push(cur_month[index])
+        }
         for (let index = 0; index < nxt_month.length; index++) {
           const element = nxt_month[index].date;
           let a_date = new Date(element)
           let arr_cac_le = await ngay_le.findOne({['assigned_date.'+a_date.getFullYear()]:element})
-          nxt_month[index].arr_cac_le = arr_cac_le
+          
 
           for (let j = 0; j < arr_cac_le.length; j++) {
             if((arr_cac_le[j].ban_van.bd1_chan_trich_tu != ""&& arr_cac_le[j].ban_van.bd1_chan_trich_tu != undefined) && a_date.getFullYear()%2==0){
@@ -761,7 +764,7 @@ module.exports = async function (fastify, opts) {
               arr_cac_le[j].ban_van.dap_ca_le = arr_cac_le[j].ban_van.dap_ca_chan
 
             }
-            if(arr_cac_le[j].title == nxt_month[index].title){
+            if(arr_cac_le[j].title.toLowerCase().localeCompare(nxt_month[index].title.toLowerCase()) == 0){
               let tmp = arr_cac_le[0]
               arr_cac_le[0] = arr_cac_le[j]
               arr_cac_le[j] = tmp
@@ -770,10 +773,12 @@ module.exports = async function (fastify, opts) {
             // console.log(arr_cac_le[j].ban_van.bd1_le)
             
           }
+          nxt_month[index].arr_cac_le = arr_cac_le
+          prev_month.push(nxt_month[index])
           
         }
         
-        return {cur_month: cur_month, prev_month: prev_month, nxt_month: nxt_month}
+        return {cur_month: prev_month, prev_month: [], nxt_month: []}
       }else{
         reply.code(400).send({ error: 'Missing required parameter: date or month' });
       }                  
@@ -807,7 +812,30 @@ module.exports = async function (fastify, opts) {
         let day_string = year+"-"+month+"-"+d
         let today = await tb_lich.findOne({date: day_string})
         let arr_cac_le = await ngay_le.find({['assigned_date.'+a_date.getFullYear()]:day_string}).toArray()
-        today.arr_cac_le = arr_cac_le
+        
+        for (let j = 0; j < arr_cac_le.length; j++) {
+            if((arr_cac_le[j].ban_van.bd1_chan_trich_tu != ""&& arr_cac_le[j].ban_van.bd1_chan_trich_tu != undefined) && a_date.getFullYear()%2==0){
+              arr_cac_le[j].ban_van.bd1_le = arr_cac_le[j].ban_van.bd1_chan
+              arr_cac_le[j].ban_van.bd1_le_trich_tu = arr_cac_le[j].ban_van.bd1_chan_trich_tu
+              arr_cac_le[j].ban_van.cau_bd1_le_tom_gon = arr_cac_le[j].ban_van.cau_bd1_chan_tom_gon
+
+              arr_cac_le[j].ban_van.dap_ca_le_trich_tu = arr_cac_le[j].ban_van.dap_ca_chan_trich_tu
+              arr_cac_le[j].ban_van.dap_ca_le = arr_cac_le[j].ban_van.dap_ca_chan
+
+            }
+            // console.log("localeComparing: "+arr_cac_le[j].title+ " with "+ today.title)
+            // console.log("= "+arr_cac_le[j].title.toLowerCase().localeCompare(today.title.toLowerCase()))
+            if(arr_cac_le[j].title.toLowerCase().localeCompare(today.title.toLowerCase()) == 0){
+              console.log("switching: "+arr_cac_le[j].title+ " with "+ arr_cac_le[0].title)
+              let tmp = arr_cac_le[0]
+              arr_cac_le[0] = arr_cac_le[j]
+              arr_cac_le[j] = tmp
+              //break
+            }
+            // console.log(arr_cac_le[j].ban_van.bd1_le)
+            
+          }
+          today.arr_cac_le = arr_cac_le
 
         return today
       }else{
