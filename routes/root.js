@@ -711,7 +711,6 @@ module.exports = async function (fastify, opts) {
               arr_cac_le[j].ban_van.dap_ca_le = arr_cac_le[j].ban_van.dap_ca_chan
 
             }
-            arr_cac_le[j].ban_van.bd1_le_trich_tu.replace(/\((?i:năm)\s*(?:II|2)\)/,'').replace(/\((?i:năm)\s*(?:I|1)\)/,'')
             if(arr_cac_le[j].title.toLowerCase().localeCompare(prev_month[index].title.toLowerCase()) == 0){
               let tmp = arr_cac_le[0]
               arr_cac_le[0] = arr_cac_le[j]
@@ -738,7 +737,6 @@ module.exports = async function (fastify, opts) {
               arr_cac_le[j].ban_van.dap_ca_le = arr_cac_le[j].ban_van.dap_ca_chan
 
             }
-            arr_cac_le[j].ban_van.bd1_le_trich_tu.replace(/\((?i:năm)\s*(?:II|2)\)/,'').replace(/\((?i:năm)\s*(?:I|1)\)/,'')
             if(arr_cac_le[j].title.toLowerCase().localeCompare(cur_month[index].title.toLowerCase()) == 0){
               let tmp = arr_cac_le[0]
               arr_cac_le[0] = arr_cac_le[j]
@@ -766,7 +764,6 @@ module.exports = async function (fastify, opts) {
               arr_cac_le[j].ban_van.dap_ca_le = arr_cac_le[j].ban_van.dap_ca_chan
 
             }
-            arr_cac_le[j].ban_van.bd1_le_trich_tu.replace(/\((?i:năm)\s*(?:II|2)\)/,'').replace(/\((?i:năm)\s*(?:I|1)\)/,'')
             if(arr_cac_le[j].title.toLowerCase().localeCompare(nxt_month[index].title.toLowerCase()) == 0){
               let tmp = arr_cac_le[0]
               arr_cac_le[0] = arr_cac_le[j]
@@ -826,7 +823,7 @@ module.exports = async function (fastify, opts) {
               arr_cac_le[j].ban_van.dap_ca_le = arr_cac_le[j].ban_van.dap_ca_chan
 
             }
-            arr_cac_le[j].ban_van.bd1_le_trich_tu.replace(/\((?i:năm)\s*(?:II|2)\)/,'').replace(/\((?i:năm)\s*(?:I|1)\)/,'')
+            //arr_cac_le[j].ban_van.bd1_le_trich_tu.replace(/\((?i:năm)\s*(?:II|2)\)/,'').replace(/\((?i:năm)\s*(?:I|1)\)/,'')
 
             if(arr_cac_le[j].title.toLowerCase().localeCompare(today.title.toLowerCase()) == 0){
               console.log("switching: "+arr_cac_le[j].title+ " with "+ arr_cac_le[0].title)
