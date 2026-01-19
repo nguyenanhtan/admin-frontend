@@ -616,8 +616,9 @@
                             </script>
                             <!-- <button type="button" class="btn btn-danger save-all">Save All</button> -->
                               
-<!-- <button class="btn btn-primary" id="update-all">Update all</button>                             -->
-<% ngay_le.forEach(function(u){%>                                
+<button class="btn btn-primary" id="update-all">Update all</button>                            
+<% ngay_le.forEach(function(u){%>          
+<%if(u.ban_van.bd1_chan_trich_tu != undefined && u.ban_van.bd1_chan_trich_tu != ''){%>                      
 <div class="container mt-5 mb-5 form-ngay-le">
         <input type="hidden" value="<%= u._id%>" class="_id">
         <div class="row justify-content-center">
@@ -689,8 +690,26 @@
                                     <button class="form-control set-default-date"><i class="bi bi-calendar-check"></i></button>
                                 </div>                                
                             </div>
-                            
-                            
+                            <!-- <div class="row mb-3">
+                                <div class="col-md-12 input-group">
+                                    <span class="input-group-text "><strong>BĐ1 - Lẻ:</strong></span>
+                                    <input type="text" class="form-control" value="<%= u.ban_van.bd1_le_trich_tu %>" disabled>
+                                    <span class="input-group-text "><strong>BĐ1 - Chẵn:</strong></span>
+                                    <input type="text" class="form-control" value="<%= u.ban_van.bd1_chan_trich_tu %>" disabled>
+                                </div>                                
+                            </div> -->
+                            <!-- <form class="adj-bd1-form" action="/bien-tap-ban-van" method="GET">
+                            <div class="row mb-3">
+                                <input type="hidden" value="<%= u._id%>" class="_id" name="_id">
+                                <div class="col-md-12 input-group">
+                                    <span class="input-group-text "><strong>BĐ1 - Lẻ:</strong></span>
+                                    <input type="text" class="form-control bd1_le_trich_tu" name="bd1_le_trich_tu" value="<%= u.ban_van.bd1_le_trich_tu %>">
+                                    <span class="input-group-text "><strong>BĐ1 - Chẵn:</strong></span>
+                                    <input type="text" class="form-control bd1_chan_trich_tu" name="bd1_chan_trich_tu" value="<%= u.ban_van.bd1_chan_trich_tu %>">
+                                </div>
+                                <button class="btn-adj-bd1 btn-danger">Update</button>                               
+                            </div>
+                            </form> -->
                             <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
                               Cập nhật thành công!
                               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -712,11 +731,61 @@
             </div>
         </div>
     </div>
-
+<%}%>
 <% }) %>
 <script>
 
 $(document).ready(function(){
+    // $('.bd1_le_trich_tu').each(function(){
+    //     let ro = $(this).val()
+    //     let x = ro.replace(/năm/gi,'Năm').trim()
+    //     //console.log(x)
+    //     $(this).val(x)
+    // })
+    // $('.bd1_chan_trich_tu').each(function(){
+    //     let ro = $(this).val()
+    //     let x = ro.replace(/năm/gi,'Năm').trim()
+    //     //console.log(x)
+    //     $(this).val(x)
+    // })
+    
+    // $('#update-all').click(function(){
+    //     $('.adj-bd1-form').submit()
+    // })
+    $('form.adj-bd1-form').submit(function(event){
+        event.preventDefault();
+
+        // Serialize the form data into a URL-encoded string
+        let formData = $(this).serialize();   
+        formData = formData+"&is_ajax=true"   
+        console.log(formData)      
+        let f_submit = $(this)         
+        f_submit.find('.alrt-success').hide()                                                  
+        f_submit.find('.alrt-failed').hide()                                                  
+        
+        // Perform the AJAX request
+        $.ajax({                                        
+            url: '/bien-tap-ban-van',
+            data: formData,
+            success: function(response) {
+                // Handle a successful response from the server
+                console.log("Success:", response);
+                f_submit.find('.alrt-success').fadeIn(700)
+                f_submit.find('.alrt-failed').hide()
+                // Example: display a success message to the user
+                // $('#responseMessage').html('<p>Form submitted successfully!</p>');
+            },
+            error: function(error) {
+                // Handle errors
+                console.error("Error:", error);
+                f_submit.find('.alrt-success').hide()
+                f_submit.find('.alrt-failed').fadeIn(700)
+                // Example: display an error message
+                // $('#responseMessage').html('<p>An error occurred. Please try again.</p>');
+            }
+        });
+    })
+    
     $(".set-default-date").click(function(){
         let date = $(this).siblings("input.r-date").val().split("/")
         let now = new Date()

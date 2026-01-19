@@ -1,6 +1,7 @@
 'use strict'
 const fastify = require('fastify')()
 const { JSDOM } = require('jsdom');
+const { exec } = require('child_process')
 class DOMParser {
   parseFromString(s, contentType = 'text/html') {
     return new JSDOM(s, { contentType }).window.document;
@@ -1023,6 +1024,28 @@ module.exports = async function (fastify, opts) {
       return err
     }
   });  
+  fastify.get('/push-notif', async function (request, reply) {
+    //const tb_kinh_nguyen = this.mongo.db.collection('kinh-nguyen')
+    //let kinh_nguyen =  await tb_kinh_nguyen.find({}).toArray()
+    // try{
+    //   return kinh_nguyen
+    // }catch(err){
+    //   return err
+    // }
+    let bd = "Xứ Vĩnh Đà, Lảnh Trì, Tướng Loát, và họ Lạc Chính (xứ Trung Hiếu) chầu mình thánh"
+    let title = "Ngày 25 tháng 1 Chúa Nhật III Thường Niên"
+    let cmd = "curl --location 'http://localhost:3456/notification/push/all' \
+--header 'Content-Type: application/json' \
+--data '{'title': '"+title+"',  'body': '"+bd+"'}'"
+    exec(cmd, (error, stdout, stderr) => { // Execute command
+    if (error) {
+      console.error(`exec error: ${error}`);
+      reply.code(500).send({ error: stderr });
+      return;
+    }
+    reply.send({ output: stdout });
+  });
+  });
 }
 
 function removeVietnameseTones(str) {
