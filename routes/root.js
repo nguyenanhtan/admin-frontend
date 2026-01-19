@@ -1036,7 +1036,7 @@ module.exports = async function (fastify, opts) {
     let title = "Ngày 25 tháng 1 Chúa Nhật III Thường Niên"
     let cmd = "curl --location 'http://localhost:3456/notification/push/all' \
 --header 'Content-Type: application/json' \
---data '{'title': '"+title+"',  'body': '"+bd+"'}'"
+--data \"{'title': '"+title+"',  'body': '"+bd+"'}\""
     exec(cmd, (error, stdout, stderr) => { // Execute command
     if (error) {
       console.error(`exec error: ${error}`);
