@@ -2,6 +2,9 @@
 const fastify = require('fastify')()
 const { JSDOM } = require('jsdom');
 const { exec } = require('child_process')
+const cron = require('node-cron')
+
+const cron_tasks = []
 class DOMParser {
   parseFromString(s, contentType = 'text/html') {
     return new JSDOM(s, { contentType }).window.document;
@@ -1025,15 +1028,9 @@ module.exports = async function (fastify, opts) {
     }
   });  
   fastify.get('/push-notif', async function (request, reply) {
-    //const tb_kinh_nguyen = this.mongo.db.collection('kinh-nguyen')
-    //let kinh_nguyen =  await tb_kinh_nguyen.find({}).toArray()
-    // try{
-    //   return kinh_nguyen
-    // }catch(err){
-    //   return err
-    // }
-    let bd = "Xứ Vĩnh Đà, Lảnh Trì, Tướng Loát, và họ Lạc Chính (xứ Trung Hiếu) chầu mình thánh"
-    let title = "Ngày 25 tháng 1 Chúa Nhật III Thường Niên"
+    
+    let bd = "Nếu bạn không nhìn thấy nút trở về hoặc nút đóng, hãy vuốt màn hình từ trái sang phải để quay trở lại"
+    let title = "Hướng dẫn sử dụng App"
     let cmd = `curl --location 'http://localhost:3456/notification/push/all' \--header 'Content-Type: application/json' \--data '{\"title\": \"${title}\",\"body\": \"${bd}\"}'`
     exec(cmd, (error, stdout, stderr) => { // Execute command
     if (error) {
@@ -1041,9 +1038,31 @@ module.exports = async function (fastify, opts) {
       reply.code(500).send({ error: stderr });
       return;
     }
-    reply.send({ output: stdout });
+      reply.send({ output: stdout });
+    });
   });
+
+  // Cleanup All Cron tasks on close
+  fastify.addHook('onClose', async () => {
+    console.log("Cleanup All Cron tasks on close")
+    cron_tasks.forEach(task => task.stop());
   });
+
+  fastify.get('/add-cronj', async function (request, reply) {
+    if('data' in request.query && 'title' in request.query){
+      let title = request.query.title
+      let data = request.query.data
+      cron_tasks.push(cron.schedule('15 11 * * 2', function(){
+        console.log('Running a task every 1 minutes');
+        console.log('title: '+ title)
+        console.log("data: "+data)
+        
+        // Your scheduled task logic here
+      }))
+    }
+    return reply.view('admin/notif-scheduling.ejs',{cron_tasks: cron_tasks })
+  });
+
 }
 
 function removeVietnameseTones(str) {

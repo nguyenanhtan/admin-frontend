@@ -28,6 +28,7 @@
     "fastify-cli": "^7.4.1",
     "fastify-plugin": "^5.0.0",
     "fastify-xml-body-parser": "^2.2.0",
-    "jsdom": "^27.4.0"
+    "jsdom": "^27.4.0",
+    "node-cron": "^4.2.1"
   }
 }
