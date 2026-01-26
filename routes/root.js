@@ -1076,6 +1076,7 @@ module.exports = async function (fastify, opts) {
   fastify.get('/notification', async function (request, reply) {
     return reply.view('admin/notification.ejs')
   })
+  
   fastify.post('/push-notif', async function (request, reply) {
     
     let bd = request.body.message
