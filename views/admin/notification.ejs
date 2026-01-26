@@ -138,10 +138,14 @@
             const type = document.getElementById('manual-type').value;
             
             if (!title || !message) {
-                alert('Please fill in all fields');
+                alert('Hãy điền đầy đủ thông tin tiêu đề và nội dung');
                 return;
             }else{
                 console.log(JSON.stringify({ title, message, type }))
+            }
+            
+            if (!confirm(`Bạn có chắc chắn muốn gửi thông báo này?\n\nTitle: ${title}\n\nMessage: ${message}`)) {
+                return;
             }
             
             try {
