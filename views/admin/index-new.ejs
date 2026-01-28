@@ -1,0 +1,192 @@
+<%
+var pageTitle = 'Dashboard - Admin';
+var currentPage = 'dashboard';
+%>
+
+<!-- Recent Sales Start -->
+<div class="bg-light text-center rounded p-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Recent Sales</h6>
+        <a href="">Show All</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table text-start align-middle table-bordered table-hover mb-0">
+            <thead>
+                <tr class="text-dark">
+                    <th scope="col"><input class="form-check-input check-all" type="checkbox"></th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Tên Lễ</th>
+                    <th scope="col">Phân Loại</th>
+                    <th scope="col">Đoạn Lời Chúa</th>
+                    <th scope="col">Màu Phụng Vụ</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <script>
+              function loadId(id) {
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                  console.log(this.responseText)
+                }                                
+                xhttp.open("GET", "/insert-lich/"+id, true);
+                xhttp.send();
+              }
+              $(document).ready(function(){
+                $(".date").click(function(){
+                  let d = $(this).siblings("input.i-date").val()
+                  let now = new Date(d)
+                  $(this).parents("tr").nextAll().each(function(){
+                    if($(this).find(".checkbox").is(":checked")){
+                        now.setDate(now.getDate()+1)
+                        let m = now.getMonth()+1
+                        let d = now.getDate()
+                        if(m < 10) m = "0"+m
+                        if(d < 10) d = "0"+d
+                        $(this).find("input.i-date").val(now.getFullYear()+"-"+m+"-"+d)
+                    }
+                  })
+                })
+                $(".unset").click(function(){
+                  $(this).siblings(".i-date").val("")
+                  $(this).parents("tr").nextAll().find(".checkbox").prop("checked", false)
+                })
+                $(".rscheckbox").click(function(){
+                    let v = $(this).siblings(".checkbox").is(":checked")
+                    $(this).parents("tr").nextAll().each(function(){
+                        $(this).find(".checkbox").prop("checked", v)
+                    })
+                })
+
+                $(".btn-save").click(function(){
+                  let title = $(this).parents("tr").find("td.title").text()
+                  let date = $(this).parents("tr").find("input.i-date").val()
+                  let id_le_theo_mua_phung_vu = $(this).siblings(".id_le_theo_mua_phung_vu").val()
+                  let mau_ao_le = ""
+                  if($(this).parents("tr").find(".mau_ao_le").length == 1){
+                    mau_ao_le = $(this).parents("tr").find(".mau_ao_le").val()
+                  }else{
+                    mau_ao_le = $(this).parents("tr").find("input:checked").val()
+                  }
+                  let req = {
+                    title: title,
+                    date: date,
+                    id_le_theo_mua_phung_vu: id_le_theo_mua_phung_vu,
+                    mau_ao_le: mau_ao_le
+                  }
+                  $.get("/submitdata", req,                                  
+                    function(data, status){
+                      console.log("Data: " + data.data + "\nStatus: " + status);
+                    }
+                  );
+                })
+                $(".check-all").click(function(){
+                    $(".checkbox").prop("checked", $(this).is(":checked"))
+                })
+                $(".save-all").click(function(){
+                    $(".btn-save").each(function(){
+                        if($(this).parents("tr").find(".checkbox").is(":checked") == true){
+                        let title = $(this).parents("tr").find("td.title").text()
+                        let date = $(this).parents("tr").find("input.i-date").val()
+                        let id_le_theo_mua_phung_vu = $(this).siblings(".id_le_theo_mua_phung_vu").val()
+                        let mau_ao_le = ""
+                        if($(this).parents("tr").find(".mau_ao_le").length == 1){
+                            mau_ao_le = $(this).parents("tr").find(".mau_ao_le").val()
+                        }else{
+                            mau_ao_le = $(this).parents("tr").find("input:checked").val()
+                        }
+                        let req = {
+                            title: title,
+                            date: date,
+                            id_le_theo_mua_phung_vu: id_le_theo_mua_phung_vu,
+                            mau_ao_le: mau_ao_le
+                        }
+                        $.get("/submitdata", req,                                  
+                            function(data, status){
+                            console.log("Data: " + data.data + "\nStatus: " + status);
+                            }
+                        );
+                        }
+                    })
+                })
+                
+              })
+            </script>
+            <button type="button" class="btn btn-danger save-all">Save All</button>
+            <tbody>
+              <% numofuser.forEach(function(u){%>
+                <% if(u.title.search(/Năm B/i) == -1 && u.title.search(/Năm C/i) == -1){%>
+                
+                <tr id="<%= u._id%>">
+                  
+                    <td>
+                        <input class="form-check-input checkbox" type="checkbox">
+                        <button type="button" class="btn btn-link rscheckbox">tblw</button>
+                    </td>
+                    <td>
+                      <input type="date" class="form-control i-date">
+                      <button type="button" class="btn btn-success date"><i class="bi bi-arrow-clockwise"></i></button>
+                      <button type="button" class="btn btn-danger unset"><i class="bi bi-calendar-x"></i></button>
+                    </td>
+                    <td class="title"><%= u.title %></td>
+                    <td></td>  
+                    <td></td>                                  
+                    <td>
+                      <% if(u.mau_ao_le.trim() != ""){%>
+                      <input class="mau_ao_le" type="text" value="<%= u.mau_ao_le %>" class="form-control">
+                      <% }else{%>
+                      <div class="form-check">
+                        <input value="Trắng" class="form-check-input mau_ao_le" type="radio" name="<%= u._id%>" id="<%= u._id%>flexRadioDefault1">
+                        <label class="form-check-label" for="<%= u._id%>flexRadioDefault1">Trắng</label>
+                      </div>
+                      <div class="form-check">
+                        <input value="Tím" class="form-check-input mau_ao_le" type="radio" name="<%= u._id%>" id="<%= u._id%>flexRadioDefault2">
+                        <label class="form-check-label" for="<%= u._id%>flexRadioDefault2">Tím</label>
+                      </div>
+                      <div class="form-check">
+                        <input value="Đỏ" class="form-check-input mau_ao_le" type="radio" name="<%= u._id%>" id="<%= u._id%>flexRadioDefault3">
+                        <label class="form-check-label" for="<%= u._id%>flexRadioDefault3">Đỏ</label>
+                      </div>
+                      <div class="form-check">
+                        <input value="Hồng" class="form-check-input mau_ao_le" type="radio" name="<%= u._id%>" id="<%= u._id%>flexRadioDefault4">
+                        <label class="form-check-label" for="<%= u._id%>flexRadioDefault4">Hồng</label>
+                      </div>
+                      <div class="form-check">
+                        <input value="Xanh" class="form-check-input mau_ao_le" type="radio" name="<%= u._id%>" id="<%= u._id%>flexRadioDefault5" checked>
+                        <label class="form-check-label" for="<%= u._id%>flexRadioDefault5">Xanh</label>
+                      </div>
+                      <%}%>
+                    </td>
+
+                    <td><input type="button" class="btn btn-sm btn-primary btn-save" value="Save">
+                        <input type="hidden" class="id_le_theo_mua_phung_vu"  value="<%= u._id%>">
+                    </td>
+                  
+                </tr>
+                <% }else{%>
+                    <tr>
+                        <td></td>
+                        <td><%=u.title%></td>
+                        <td><%=u.title.search(/Năm B/i)%></td>
+                        <td><%=u.title.search(/Năm C/i)%></td>
+                    </tr>
+                <% }%>
+              <% }) %>
+              <script>
+               $(document).ready(function(){
+               $.get("/get-lich-cong-giao", function(data, status){
+                    data.forEach(function(e) {
+                        console.log(JSON.stringify(e._id))
+                        $("tr#"+e.id_le_theo_mua_phung_vu).css("background-color", "#ffc107")   
+                        $("tr#"+e.id_le_theo_mua_phung_vu).find(".i-date").val(e.date)
+                    });
+                })
+            })
+              </script>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Recent Sales End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>

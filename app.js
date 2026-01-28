@@ -59,7 +59,8 @@ module.exports = async function (fastify, opts) {
       engine: {
         ejs: require('ejs')
       },
-      root: path.join(__dirname, 'views') // Specify the directory where your view files are located
+      root: path.join(__dirname, 'views'), // Specify the directory where your view files are located
+      layout: 'layouts/main' // Set default layout
     })
 
   fastify.register(require('@fastify/static'), {
