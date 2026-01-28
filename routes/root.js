@@ -703,7 +703,7 @@ module.exports = async function (fastify, opts) {
         for (let index = 0; index < prev_month.length; index++) {
           const element = prev_month[index].date;
           let a_date = new Date(element)
-          let arr_cac_le = await ngay_le.findOne({['assigned_date.'+a_date.getFullYear()]:element})
+          let arr_cac_le = await ngay_le.find({['assigned_date.'+a_date.getFullYear()]:element}).toArray()
           
           for (let j = 0; j < arr_cac_le.length; j++) {
             if((arr_cac_le[j].ban_van.bd1_chan_trich_tu != "" && arr_cac_le[j].ban_van.bd1_chan_trich_tu != undefined) && a_date.getFullYear()%2==0){
@@ -755,7 +755,7 @@ module.exports = async function (fastify, opts) {
         for (let index = 0; index < nxt_month.length; index++) {
           const element = nxt_month[index].date;
           let a_date = new Date(element)
-          let arr_cac_le = await ngay_le.findOne({['assigned_date.'+a_date.getFullYear()]:element})
+          let arr_cac_le = await ngay_le.find({['assigned_date.'+a_date.getFullYear()]:element}).toArray()
           
 
           for (let j = 0; j < arr_cac_le.length; j++) {
