@@ -3,6 +3,8 @@ const fastify = require('fastify')()
 const { JSDOM } = require('jsdom');
 const { exec } = require('child_process')
 const cron = require('node-cron')
+const mammoth = require('mammoth')
+const pdfParse = require('pdf-parse')
 
 const cron_tasks = []
 class DOMParser {
@@ -1103,6 +1105,39 @@ module.exports = async function (fastify, opts) {
         }
       });
     });
+  });
+
+  fastify.get('/doc-to-html', async function (request, reply) {
+    return reply.view('admin/doc-to-html.ejs', { html: '' });
+  });
+
+  fastify.post('/doc-to-html', async function (request, reply) {
+    const data = await request.file();
+    if (!data) {
+      return reply.code(400).send({ error: 'No file uploaded' });
+    }
+
+    const buffer = await data.toBuffer();
+    let html;
+    try {
+      if (data.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        const result = await mammoth.convertToHtml({ buffer: buffer });
+        html = result.value;
+      } else if (data.mimetype === 'text/plain') {
+        const text = buffer.toString('utf-8');
+        html = `<div style="white-space: pre-wrap; font-family: monospace;">${text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`;
+      } else if (data.mimetype === 'application/pdf') {
+        const data = await pdfParse(buffer);
+        const text = data.text;
+        html = `<div style="white-space: pre-wrap; font-family: monospace;">${text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`;
+      } else {
+        return reply.code(400).send({ error: 'Unsupported file type. Please upload DOCX, TXT, or PDF.' });
+      }
+    } catch (err) {
+      return reply.code(500).send({ error: 'Failed to convert document' });
+    }
+
+    return reply.view('admin/doc-to-html.ejs', { html: html });
   });
 
   // Cleanup All Cron tasks on close

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document to HTML Converter</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Upload Document and Convert to HTML</h1>
+        <form action="/doc-to-html" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="file" class="form-label">Select Document (DOCX, TXT, PDF)</label>
+                <input type="file" class="form-control" id="file" name="file" accept=".docx,.txt,.pdf" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Convert to HTML</button>
+        </form>
+
+        <% if (typeof html !== 'undefined') { %>
+            <div class="mt-5">
+                <h2>Converted HTML</h2>
+                <div class="btn-group mb-3" role="group">
+                    <input type="radio" class="btn-check" name="viewMode" id="preview" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="preview">Preview</label>
+                    <input type="radio" class="btn-check" name="viewMode" id="code" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="code">HTML Code</label>
+                </div>
+                <div id="preview-view" class="border p-3" data-html="<%- html.replace(/"/g, '&quot;') %>">
+                    <%- html %>
+                </div>
+                <div id="code-view" class="border p-3" style="display: none;">
+                    <pre><code><%- html.replace(/</g, '&lt;').replace(/>/g, '&gt;') %></code></pre>
+                </div>
+                <button class="btn btn-secondary mt-3 me-2" onclick="copyToClipboard()">Copy HTML</button>
+                <button class="btn btn-success mt-3" onclick="downloadHTML()">Download HTML</button>
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const previewRadio = document.getElementById('preview');
+            const codeRadio = document.getElementById('code');
+            const previewView = document.getElementById('preview-view');
+            const codeView = document.getElementById('code-view');
+
+            previewRadio.addEventListener('change', function() {
+                if (this.checked) {
+                    previewView.style.display = 'block';
+                    codeView.style.display = 'none';
+                }
+            });
+
+            codeRadio.addEventListener('change', function() {
+                if (this.checked) {
+                    previewView.style.display = 'none';
+                    codeView.style.display = 'block';
+                }
+            });
+        });
+
+        function copyToClipboard() {
+            const htmlContent = document.querySelector('#preview-view').getAttribute('data-html');
+            navigator.clipboard.writeText(htmlContent).then(() => {
+                alert('HTML copied to clipboard!');
+            });
+        }
+
+        function downloadHTML() {
+            const htmlContent = document.querySelector('#preview-view').getAttribute('data-html');
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'converted.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
